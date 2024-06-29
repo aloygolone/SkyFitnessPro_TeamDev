@@ -1,10 +1,8 @@
-import './App.css'
-import Directions from './components/DataComponents/Directions'
+/* import './App.css' */
+
 
 export default function App() {
-  return (
-    <Directions />
-
-  )
-}  
+  
+  
+}
 
