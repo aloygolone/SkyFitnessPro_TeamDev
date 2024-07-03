@@ -1,19 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line no-undef
-module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
-  theme: {
-    screens: {
-      sm: "480px",
-      md: "768px",
-      lg: "976px",
-      xl: "1440px",
-    },
-    fontFamily: {
-      defaultFont: ["Roboto", "sans-serif"],
-      uniqueFont: ["StratosSkyeng", "sans-serif"],
-    },
-    extend: {
+export default {
+  content: ['./**/*.tsx'],
+ theme: {
+   screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+   },
+   fontFamily: {
+           defaultFont: ['Roboto', 'sans-serif'],
+           uniqueFont: ['StratosSkyeng', 'sans-serif'],
+   },
+   extend: {
       colors: {
         mainColor: "#BCEC30",
         mainHover: "#C6FF00",

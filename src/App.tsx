@@ -16,4 +16,5 @@ export default function App() {
             <Route path={appRoutes.WORKOUT_VIDEO} element={<WorkoutVideoPage />}/>
         </Routes>
     )
+
 }
