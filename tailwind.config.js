@@ -32,6 +32,7 @@ export default {
         blockRadius: "30px",
         buttonRadius: "46px",
         progressRadius: "50px",
+        blockRadiusFrame: "28px",
       },
       padding: {
         inptY: "16px",
