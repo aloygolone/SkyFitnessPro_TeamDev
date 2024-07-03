@@ -1,5 +1,6 @@
-import Header from "../components/Common/Header";
+// import Header from "../components/Common/Header";
+import FittingText from "../components/DataComponents/FittingTexts";
 
 export default function UserProfilePage() {
-  return <Header/>;
+  return <FittingText/>;
 }
