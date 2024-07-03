@@ -15,7 +15,7 @@ export default function Header() {
       </div>
 
       <div
-        className="rounded-button bg-mainColor text-black" /* onClick={handleSigninForm} */
+        className="rounded-buttonRadius bg-mainColor text-black" /* onClick={handleSigninForm} */
       >
         Войти
       </div>
