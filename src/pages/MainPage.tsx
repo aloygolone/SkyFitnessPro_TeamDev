@@ -1,9 +1,5 @@
-// import Header from "../components/Common/Header";
-import FittingText from "../components/DataComponents/FittingTexts";
+import Header from "../components/Common/Header";
 
 export default function MainPage() {
-  return (
-    // <Header />
-    <FittingText/>
-  );
+  return <Header />;
 }

@@ -5,7 +5,7 @@ export default function FittingText() {
       <div>
         <div className="container flex justify-between mx-auto">
           <div>
-            <h2 className="rounded-button bg-mainColor text-black">1</h2>
+            <h2 className="rounded-buttonRouters bg-mainColor text-black">1</h2>
             <h2>Давно хотели попробовать йогу, но не решались начать</h2>
           </div>
         </div>
