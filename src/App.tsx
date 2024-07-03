@@ -1,18 +1,19 @@
 /* import './App.css' */
 
-import Header from "./components/Common/Header";
-import Directions from "./components/DataComponents/Directions";
-import FittingText from "./components/DataComponents/FittingTexts";
-
+import { Route, Routes } from "react-router-dom";
+import { appRoutes } from "./lib/appRoutes";
+import MainPage from "./pages/MainPage";
+import CoursePage from "./pages/CoursePage";
+import UserProfilePage from "./pages/UserProfilePage";
+import WorkoutVideoPage from "./pages/WorkoutVideoPage";
 
 export default function App() {
     return (
-        <>
-            <Header />
-            <Directions/>
-            <FittingText/>
-        </>
-  )
-  
+        <Routes>
+            <Route path={appRoutes.MAIN} element={<MainPage />}/>
+            <Route path={appRoutes.COURSE} element={<CoursePage />}/>
+            <Route path={appRoutes.USER_PROFILE} element={<UserProfilePage />}/>
+            <Route path={appRoutes.WORKOUT_VIDEO} element={<WorkoutVideoPage />}/>
+        </Routes>
+    )
 }
-

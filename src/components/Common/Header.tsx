@@ -25,9 +25,7 @@ export default function Header() {
 
         <div>
           <div>Сергей</div>
-          <svg>
-           {/*  <use user_arrow_icon="/" /> */}
-          </svg>
+          <svg>{/*  <use user_arrow_icon="/" /> */}</svg>
         </div>
       </div>
     </div>
