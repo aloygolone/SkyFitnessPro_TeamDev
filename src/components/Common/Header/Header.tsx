@@ -1,8 +1,8 @@
-import "../../css/style.css";
+import "../../../css/style.css";
 
 export default function Header() {
   return (
-    <div className="container flex justify-between mx-auto">
+    <div className="container mx-auto flex justify-between">
       <div className="flex flex-col space-y-[15px]">
         <div>
           {/* <Link to="/">
@@ -15,17 +15,19 @@ export default function Header() {
       </div>
 
       <div
-        className="rounded-button bg-mainColor text-black" /* onClick={handleSigninForm} */
+        className="rounded-buttonRadius bg-mainColor px-btnX py-btnY text-black hover:bg-mainHover" /* onClick={handleSigninForm} */
       >
         Войти
       </div>
       {/* user Блок */}
       <div>
-        <div>profile_icon</div>
+        <div></div>
 
         <div>
           <div>Сергей</div>
-          <svg>{/*  <use user_arrow_icon="/" /> */}</svg>
+          <svg className="w-[8px] h-[8px]">
+            <use xlinkHref="./public/icons/sprite.svg#icon-user-arrow" />
+          </svg>
         </div>
       </div>
     </div>

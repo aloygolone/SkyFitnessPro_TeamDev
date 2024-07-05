@@ -605,12 +605,31 @@ video {
   margin-bottom: calc(15px * var(--tw-space-y-reverse));
 }
 
+.rounded-buttonRadius {
+  border-radius: 46px;
+}
+
 .bg-mainColor {
   --tw-bg-opacity: 1;
   background-color: rgb(188 236 48 / var(--tw-bg-opacity));
 }
 
+.px-btnX {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.py-btnY {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.hover\:bg-mainHover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(198 255 0 / var(--tw-bg-opacity));
 }
