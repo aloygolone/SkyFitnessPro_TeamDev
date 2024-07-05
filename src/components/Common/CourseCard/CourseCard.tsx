@@ -1,3 +1,3 @@
 export default function CourseCard() {
-  return;
+  return"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 }
