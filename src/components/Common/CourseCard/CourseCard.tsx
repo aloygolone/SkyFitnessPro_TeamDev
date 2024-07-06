@@ -1,5 +1,5 @@
-import "../../css/style.css";
-import { useState } from "react";
+import "../../../css/style.css";
+/* import { useState } from "react"; */
 
 type FiltersItemType = {
   id: number;
@@ -13,12 +13,12 @@ export default function CourseCard({
   progress,
 }: FiltersItemType) {
   const url: string = "UserProfilePage"; /* page point */ /* "MainPage" */
-  const [isMainPage, setIsMainPage] = useState<boolean>(false);
+  /*   const [isMainPage, setIsMainPage] = useState<boolean>(false); */
 
-  function handleClick() {
+  /*   function handleClick() {
     setIsMainPage((prevState) => !prevState);
   }
-
+ */
   const size = url === "UserProfilePage" ? `h-cardHeight` : `h-cardHeightUser`;
 
   function setImg() {
@@ -40,21 +40,15 @@ export default function CourseCard({
             src={`/images/images_small/${setImg()}`}
             alt=""
           />
-          <div onClick={handleClick} className="absolute top-0 right-0">
-            {url === "UserProfilePage" && { isMainPage } ? (
-              <img
-                className="w-8 h-8 m-5 cursor-default"
-                src="/icons/minus_icon.svg"
-                alt=""
-                title="Удалить курс"
-              />
+          <div /* onClick={handleClick} */ className="absolute top-0 right-0">
+            {url === "UserProfilePage" ? (
+              <svg className="w-8 h-8 m-5 cursor-default">
+                <use xlinkHref="/public/icons/sprite.svg#icon-minus" />
+              </svg>
             ) : (
-              <img
-                className="w-8 h-8 m-5 cursor-default"
-                src="/icons/plus_icon.svg"
-                alt=""
-                title="Добавить курс"
-              />
+              <svg className="w-[26px] h-[26px] m-5 cursor-default">
+                <use xlinkHref="/public/icons/sprite.svg#icon-plus" />
+              </svg>
             )}
           </div>
         </div>
@@ -64,27 +58,21 @@ export default function CourseCard({
             <h1 className="flex flex-row mb-0.5 text-3xl">{cursName}</h1>
             <div className="flex flex-wrap mb-0.5">
               <div className="flex m-1.5 items-center content-center">
-                <img
-                  src="/icons/calendar_icon.svg"
-                  alt=""
-                  className="w-4 h-4 m-2"
-                />
+                <svg className="w-[15px] h-[15px] m-2">
+                  <use xlinkHref="/public/icons/sprite.svg#icon-calendar" />
+                </svg>
                 <p className="text-base">25 дней</p>
               </div>
               <div className="flex m-1.5 items-center content-center">
-                <img
-                  src="/icons/clockface_icon.svg"
-                  alt=""
-                  className="w-4 h-4 m-2"
-                />
+                <svg className="w-[15px] h-[15px] m-2">
+                  <use xlinkHref="/public/icons/sprite.svg#icon-clockface" />
+                </svg>
                 <p className="text-base">20-50 мин/день</p>
               </div>
               <div className="flex m-1.5 items-center content-center">
-                <img
-                  src="/icons/difficult_icon.svg"
-                  alt=""
-                  className="w-4 h-4 m-2"
-                />
+                <svg className="w-[15px] h-[15px] m-2">
+                  <use xlinkHref="/public/icons/sprite.svg#icon-difficult-full" />
+                </svg>
                 <p className="text-base">Сложность</p>
               </div>
             </div>

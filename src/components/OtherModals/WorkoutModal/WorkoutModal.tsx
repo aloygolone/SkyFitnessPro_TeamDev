@@ -1,4 +1,4 @@
-import "../../css/style.css";
+import "../../../css/style.css";
 import { WorkoutCursList } from "../WorkoutCursList/WorkoutCursList";
 
 export default function WorkoutModal() {
