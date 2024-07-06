@@ -14,6 +14,23 @@ module.exports = {
       uniqueFont: ["StratosSkyeng", "sans-serif"],
     },
     extend: {
+      spacing: {
+        cardWidth: "22.5rem",
+        cardHeight: "40.5rem",
+        cardBlockWidth: "72.5rem",
+        cardHeightUser: "31rem",
+        cardBlockHeight: "46rem",
+        heightWorkoutComponent: "38rem",
+        widthWorkoutComponent: "28.75rem",
+        radiusBtn: "40rem",
+        heightCursFirst: "23.75rem",
+        heightCursSecond: "22.75rem",
+        widthMyProgress: "26.6rem",
+        widthBlockExercises: "72.5rem",
+        heightBlockExercises: "23.4rem",
+        widthSelectorExercises: "67.5rem",
+        heightSelectorExercises: "18.4rem",
+    },
       colors: {
         mainColor: "#BCEC30",
         mainHover: "#C6FF00",
@@ -26,6 +43,7 @@ module.exports = {
         progressColor: "#00C1FF",
         bgColor: "#F7F7F7",
         blackout: "#FAFAFA",
+        colorBorderBtn: "#C4C4C4"
       },
       borderRadius: {
         inputRadius: "8px",
