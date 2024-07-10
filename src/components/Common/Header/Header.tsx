@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
 import "../../../css/style.css";
 
 import UserModal from "../UserModal/UserModal";
+import { appRoutes } from "../../../lib/appRoutes";
 
 export default function Header() {
   return (
     <div className="mx-auto mt-[50px] flex items-center justify-between">
       <div className="flex flex-col space-y-[15px]">
         <div className="">
-          <a>
-            <img src="/images/logo.png" alt="logo" />
-          </a>
+        <Link to={appRoutes.COURSE}>
+        <img src="/images/logo.png" alt="logo" />
+      </Link>
         </div>
         <div className="space-y-[60px]">
           <p className="font-roboto hidden md:flex">
