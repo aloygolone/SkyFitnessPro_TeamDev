@@ -3,14 +3,13 @@ import CourseLogo from "../../components/DataComponents/CourseLogo/CourseLogo";
 import Directions from "../../components/DataComponents/Directions/Directions";
 import FittingText from "../../components/DataComponents/FittingText/FittingTexts";
 
-
 export default function CoursePage() {
   return (
     <>
       <Header />
-      <CourseLogo/>
+      <CourseLogo />
       <FittingText />
-      <Directions/>
-      </>
+      <Directions />
+    </>
   );
 }
