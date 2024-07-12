@@ -1,12 +1,7 @@
-// import { Link } from "react-router-dom";
-// import { appRoutes } from "../../../lib/appRoutes";
 
 export default function FittingText() {
   return (
     <div className="container flex flex-col mx-auto py-l">
-       {/* <Link to={appRoutes.MAIN}>
-        <img src="/images/logo.png" alt="logo" />
-      </Link> */}
       <p className="pb-10 font-bold text-5xl">
         Подойдет для вас, если:
       </p>
