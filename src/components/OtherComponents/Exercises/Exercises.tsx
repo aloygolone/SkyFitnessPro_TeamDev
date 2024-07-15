@@ -13,20 +13,23 @@ export default function Exercises() {
     { info: "Поднятие ног, согнутых в коленях", progress: " 23%" },
   ];
   return (
-    <div className="bg-white  rounded-3xl w-widthBlockExercises h-heightBlockExercises">
-      <div className="p-10 w-ExercisesW2 h-ExercisesH2">
-        <h1 className="text-3xl mb-5">Упражнения тренировки 2</h1>
-        <div className="flex flex-wrap">
+    <div className="mt-[40px] flex rounded-3xl bg-white">
+      <div className="p-[40px]">
+        <h1 className="mb-[20px] text-3xl">Упражнения тренировки 2</h1>
+        <div className="mb-[40px] flex flex-wrap">
           {testArr.map((el, index) => {
             return (
-              <p className="w-80 mb-9" key={index}>
+              <p
+                className="mb-[20px] mr-[160px] h-[20px] w-[320px]"
+                key={index}
+              >
                 {el.info}
                 {el.progress}
               </p>
             );
           })}
         </div>
-        <button className="rounded-3xl h-12 w-72 bg-mainColor mt-2 text-xl">
+        <button className="mt-[8px] h-[48px] w-[288px] rounded-3xl bg-mainColor text-xl">
           Заполнить свой прогресс
         </button>
       </div>

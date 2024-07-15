@@ -45,39 +45,29 @@ export function WorkoutCursList() {
       active: "start",
     },
   ];
-  /* 
-  const [select, setSelect] = useState("ellipsAdd.png");
-
-  function handleClick() {
-    if (select === "ellipsAdd.png") {
-      setSelect("task.png");
-    } else {
-      setSelect("ellipsAdd.png");
-    }
-  } */
 
   return (
     <>
       {testArr.map((el, index) => {
         return (
-          <div key={index} className="pb-2 mb-2.5 h-14">
-            <div className=" border-b-[1px] border-colorBorderBtn flex justify-start items-center content-center mb-2.5">
+          <div key={index} className="mb-[10px] h-[56px] pb-[8px]">
+            <div className="border-colorBorderBtn mb-[10px] flex content-center items-center justify-start border-b-[1px]">
               {el.active === "finish" ? (
                 <svg
-                  className="pointer-events-none mr-3 ml-0.5 h-[20px] w-[20px]"
+                  className="pointer-events-none ml-[2px] mr-[12px] h-[20px] w-[20px]"
                   key={el.day}
                 >
                   <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                 </svg>
               ) : (
                 <svg
-                  className="cursor-pointer mr-3 ml-0.5 h-[20px] w-[20px]"
+                  className="ml-[2px] mr-[12px] h-[20px] w-[20px] cursor-pointer"
                   key={el.day}
                 >
                   <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                 </svg>
               )}
-              <div className="mr-2.5">
+              <div className="mr-[10px]">
                 <p className="text-lg">{el.title}</p>
                 <p>
                   {el.description} / {el.day} день
@@ -87,7 +77,6 @@ export function WorkoutCursList() {
           </div>
         );
       })}
-      ;
     </>
   );
 }

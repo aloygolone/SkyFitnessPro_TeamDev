@@ -3,22 +3,24 @@ import { WorkoutCursList } from "../WorkoutCursList/WorkoutCursList";
 
 export default function WorkoutModal() {
   return (
-    <div className=" h-heightWorkoutComponent w-widthWorkoutComponent bg-white rounded-3xl flex justify-center">
-      <div className="p-10 w-96 ">
+    <div className="flex h-[608px] w-[460px] justify-center rounded-3xl bg-white">
+      <div className="w-[384px] p-[40px]">
         <div>
-          <h1 className="mb-12 text-2xl flex justify-center">
+          <h1 className="mb-[48px] flex justify-center text-3xl">
             Выберите тренировку
           </h1>
         </div>
-        <div className="overflow-hidden scroll-smooth h-heightCursFirst">
-          <div className="scroll-smooth overflow-y-scroll h-heightCursSecond">
-            <WorkoutCursList />
+        <div className="h-[446px]">
+          <div className="overflow-hidden scroll-smooth">
+            <div className="h-[364px] overflow-y-scroll scroll-smooth">
+              <WorkoutCursList />
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center items-center content-center">
-          <button className="rounded-3xl h-12 w-72 bg-mainColor mt-6 text-xl">
-            Начать
-          </button>
+          <div className="flex content-center items-center justify-center">
+            <button className="mt-[24px] h-[48px] w-[288px] rounded-3xl bg-mainColor text-xl">
+              Начать
+            </button>
+          </div>
         </div>
       </div>
     </div>

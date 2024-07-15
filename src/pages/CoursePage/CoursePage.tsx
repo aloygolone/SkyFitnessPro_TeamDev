@@ -10,10 +10,12 @@ export default function CoursePage() {
     { id: 2, name: "Стретчинг", progress: 0 },
     { id: 3, name: "Зумба", progress: 100 },
   ];
+
+  const IsMainPage = true;
   return (
     <>
-      <div className="w-cardBlockWidth h-cardBlockHeight flex flex-col justify-center">
-        <p className="flex flex-row text-3xl text-sky-50 mb-10">Мои курсы</p>
+      <div className="bg-black">
+        <p className="mb-[40px] text-3xl text-sky-50">Мои курсы</p>
         <div className="flex justify-between">
           {objCard.map((el) => (
             <CourseCard
@@ -21,13 +23,14 @@ export default function CoursePage() {
               key={el.id}
               cursName={el.name}
               progress={el.progress}
+              url={IsMainPage}
             />
           ))}
         </div>
+        <Exercises />
+        <WorkoutModal />
+        <MyProgressModal />
       </div>
-      <Exercises />
-      <WorkoutModal />
-      <MyProgressModal />
     </>
   );
 }
