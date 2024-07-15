@@ -11,28 +11,31 @@ export default function MyProgressModal() {
     { id: 4, title: "Сколько раз вы сделали приседаний?" },
   ];
   return (
-    <div className=" h-workoutH w-widthMyProgress bg-white rounded-3xl flex justify-center">
-      <div className="p-10 w-96 ">
+    <div className="flex h-[596px] w-[426px] justify-center rounded-3xl bg-white">
+      <div className="w-[384px] p-[40px]">
         <div>
-          <h1 className="mb-12 text-3xl flex justify-start">Мой прогресс</h1>
+          <h1 className="mb-[48px] flex justify-start text-3xl">
+            Мой прогресс
+          </h1>
         </div>
-        <div className="overflow-hidden scroll-smooth h-heightCursArr2">
-          <div className="scroll-smooth overflow-y-scroll h-heightCursArr">
+        <div className="h-[364px] overflow-hidden scroll-smooth">
+          <div className="h-[380px] overflow-y-scroll scroll-smooth">
             {testArr.map((el) => {
               return (
                 <div key={el.id}>
-                  <p className="mb-2.5 rounded-xl">{el.title}</p>
+                  <p className="mb-[10px] rounded-xl">{el.title}</p>
                   <input
-                    className="p-5 text-lg mb-5 rounded-lg w-72 h-12 border-[1px] border-colorBorderBtn"
+                    className="border-colorBorderBtn mb-[20px] h-[48px] w-[288px] rounded-lg border-[1px] p-[20px] text-lg"
                     type="number"
+                    placeholder="0 - 1000"
                   />
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="flex justify-center items-center content-center">
-          <button className="rounded-3xl h-12 w-72 bg-mainColor mt-6">
+        <div className="flex content-center items-center justify-center">
+          <button className="mt-[24px] h-[48px] w-[288px] rounded-3xl bg-mainColor">
             <p className="text-xl">Сохранить</p>
           </button>
         </div>

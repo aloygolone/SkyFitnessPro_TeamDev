@@ -5,22 +5,15 @@ type FiltersItemType = {
   id: number;
   cursName: string;
   progress: number;
+  url: boolean;
 };
 
 export default function CourseCard({
   id,
   cursName,
   progress,
+  url,
 }: FiltersItemType) {
-  const url: string = "UserProfilePage"; /* page point */ /* "MainPage" */
-  /*   const [isMainPage, setIsMainPage] = useState<boolean>(false); */
-
-  /*   function handleClick() {
-    setIsMainPage((prevState) => !prevState);
-  }
- */
-  const size = url === "UserProfilePage" ? `h-cardHeight` : `h-cardHeightUser`;
-
   function setImg() {
     if (cursName === "Йога") {
       return "yoga_female_sm.png";
@@ -33,65 +26,65 @@ export default function CourseCard({
 
   return (
     <>
-      <div className={`${size} w-cardWidth rounded-3xl bg-white`} key={id}>
-        <div className="relative mb-6">
+      <div className={`rounded-3xl bg-white`} key={id}>
+        <div className="relative mb-[24px]">
           <img
             className="rounded-3xl object-contain"
             src={`/images/images_small/${setImg()}`}
             alt=""
           />
-          <div /* onClick={handleClick} */ className="absolute top-0 right-0">
-            {url === "UserProfilePage" ? (
-              <svg className="w-8 h-8 m-5 cursor-default">
+          <div className="absolute right-0 top-0">
+            {url ? (
+              <svg className="m-[20px] h-[32px] w-[32px] cursor-default">
                 <use xlinkHref="/public/icons/sprite.svg#icon-minus" />
               </svg>
             ) : (
-              <svg className="w-[26px] h-[26px] m-5 cursor-default">
+              <svg className="m-[20px] h-[32px] w-[32px] cursor-default">
                 <use xlinkHref="/public/icons/sprite.svg#icon-plus" />
               </svg>
             )}
           </div>
         </div>
 
-        <div className="rounded-12px list-none w-72 h-72 mx-8 flex flex-col">
+        <div className="mx-[32px] flex list-none flex-col rounded-[12px]">
           <div>
-            <h1 className="flex flex-row mb-0.5 text-3xl">{cursName}</h1>
-            <div className="flex flex-wrap mb-0.5">
-              <div className="flex m-1.5 items-center content-center">
-                <svg className="w-[15px] h-[15px] m-2">
+            <h1 className="mb-[2px] flex flex-row text-3xl">{cursName}</h1>
+            <div className="mb-[2px] flex w-[288px] flex-wrap">
+              <div className="m-[6px] flex content-center items-center">
+                <svg className="m-[8px] h-[15px] w-[15px]">
                   <use xlinkHref="/public/icons/sprite.svg#icon-calendar" />
                 </svg>
                 <p className="text-base">25 дней</p>
               </div>
-              <div className="flex m-1.5 items-center content-center">
-                <svg className="w-[15px] h-[15px] m-2">
+              <div className="m-[6px] flex content-center items-center">
+                <svg className="m-[8px] h-[15px] w-[15px]">
                   <use xlinkHref="/public/icons/sprite.svg#icon-clockface" />
                 </svg>
                 <p className="text-base">20-50 мин/день</p>
               </div>
-              <div className="flex m-1.5 items-center content-center">
-                <svg className="w-[15px] h-[15px] m-2">
+              <div className="m-[6px] flex content-center items-center">
+                <svg className="m-[8px] h-[15px] w-[15px]">
                   <use xlinkHref="/public/icons/sprite.svg#icon-difficult-full" />
                 </svg>
                 <p className="text-base">Сложность</p>
               </div>
             </div>
 
-            {url === "UserProfilePage" && (
-              <div className="mb-10">
-                <p className="bg-bgColor flex justify-start text-lg">
+            {url && (
+              <div className="mb-[40px]">
+                <p className="flex justify-start bg-bgColor text-lg">
                   Прогресс {progress}%
                 </p>
                 <progress
-                  className="inline-block align-middle appearance-none h-1.5 w-72"
+                  className="inline-block h-[6px] w-[288px] appearance-none align-middle"
                   value={progress}
                   max="100"
                 ></progress>
               </div>
             )}
           </div>
-          {url === "UserProfilePage" && (
-            <button className="rounded-3xl h-12 w-72 flex justify-center items-center content-center bg-mainColor text-xl">
+          {url && (
+            <button className="flex h-[48px] w-[288px] content-center items-center justify-center rounded-3xl bg-mainColor text-xl">
               <h2>
                 {progress === 0 && "Начать тренировку"}
                 {progress === 100 && "Начать заново"}
