@@ -1,14 +1,18 @@
-import SignupForm from 'components/Common/SignupForm'
-import React from 'react'
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function signupApi() {
-    return (
-        <div>
-            <h1>Register</h1>
-            <SignupForm />
-            <p>
-                Already have an account? <Link to="/login">Sign in</Link>   
-            </p>            
-        </div>
-    )
-}
+
+export default function signupApi= async (name, email, password) => {
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const user = res.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name,
+        authProvider: "local",
+        email,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
