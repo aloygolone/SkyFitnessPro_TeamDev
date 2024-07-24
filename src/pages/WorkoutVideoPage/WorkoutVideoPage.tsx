@@ -21,10 +21,11 @@ export default function WorkoutVideoPage() {
   const NameSelectedCourse = "Йога";
   const workoutNumber = "2";
   const paths = "Красота и здоровье / Йога на каждый день / 2 день";
+  const page = "WorkoutVideoPage";
 
   return (
     <>
-      <Header />
+      <Header page={page} />
       <div className="flex-start mt-[20px] flex flex-col">
         <h1 className="mb-[24px] text-[60px] font-medium">
           {NameSelectedCourse}

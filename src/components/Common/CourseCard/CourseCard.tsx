@@ -39,7 +39,7 @@ export default function CourseCard({ isMainPage }: { isMainPage: boolean }) {
 
   return (
     <>
-      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start">
+      <div className="mt-[40px] flex flex-wrap justify-center gap-[40px] sm:mt-[50px] sm:justify-center md:justify-center lg:justify-start">
         {CourseData.map((el, index) => (
           <div
             key={index}
@@ -77,7 +77,7 @@ export default function CourseCard({ isMainPage }: { isMainPage: boolean }) {
                       <use xlinkHref="/public/icons/sprite.svg#icon-minus" />
                     </svg>
                     {showTooltips[index] && (
-                      <span className="absolute left-[64px] whitespace-nowrap rounded-[5px] border-[1px] border-black bg-white p-[6px] pl-[20px] pr-[20px] text-center text-black">
+                      <span className="absolute left-[64px] z-[1] whitespace-nowrap rounded-[5px] border-[1px] border-black bg-white p-[6px] pl-[20px] pr-[20px] text-center text-black">
                         Удалить курс
                       </span>
                     )}
