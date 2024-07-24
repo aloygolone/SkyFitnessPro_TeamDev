@@ -1,12 +1,40 @@
 // import { useState } from "react";
 import CourseCard from "../../components/Common/CourseCard/CourseCard";
 import Header from "../../components/Common/Header/Header";
+import { database } from "../../api/firebase_api";
+import { useEffect, useState } from "react";
+import { child, get, ref } from "firebase/database";
+
+interface CourseTypeId {
+  id: string;
+  title: string;
+}
 
 export default function MainPage() {
   // const [courses, setCourses] = useState<CourseType[]>();
   // const { courses, setCourses } = useCourses();
   const page = "CorrectForTextPage";
+  const [courses, setCourses] = useState<CourseTypeId[]>([]);
 
+  useEffect(() => {
+    const getCourses = async () => {
+      try {
+        const snapshot = await get(child(ref(database), "courses"));
+        if (snapshot.exists()) {
+          const coursesData = snapshot.val();
+          const coursesArray = Object.keys(coursesData).map((key) => ({
+            id: key,
+            title: coursesData[key].title,
+          }));
+          setCourses(coursesArray);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getCourses();
+  }, []); 
   // useEffect(() => {
   //   getCoursesApi() функция API получения курсов с базы
   //     .then((courses) => {
@@ -53,6 +81,9 @@ export default function MainPage() {
         </div>
         <CourseCard isMainPage={true} />
         <div className="flex justify-end md:justify-center">
+        {courses.map((course) => (
+          <li key={course.id}>{course.title}</li>
+        ))}
           <div
             className="text-lg/[19.8px] mb-[29px] mt-[24px] justify-center rounded-buttonRadius bg-mainColor px-btnX py-btnY text-center font-defaultFont font-normal text-black hover:bg-mainHover md:mb-[81px] md:mt-[34px] md:flex"
             onClick={() => window.scrollTo(0, 0)}

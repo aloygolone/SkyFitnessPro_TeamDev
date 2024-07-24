@@ -3,20 +3,22 @@ import { CourseType, WorkoutType } from "../types";
 import { database } from "./firebase_api";
 
 //Получить все курсы
-export const getCoursesApi = async () => {
+export const getCoursesApi = () => {
   let result: CourseType[] = [];
-  try {
-    const snapshot = await get(child(ref(database), `courses`));
-    if (snapshot.exists()) {
-      Object.keys(snapshot.val()).forEach((key) => {
-        result.push(snapshot.val()[key]);
-      });
-      result = result.sort(compareByOrder);
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  return result;
+  return get(child(ref(database), `courses`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        Object.keys(snapshot.val()).forEach((key) => {
+          result.push(snapshot.val()[key]);
+        });
+        result = result.sort(compareByOrder);
+      }
+      return result;
+    })
+    .catch((error) => {
+      console.error(error);
+      return result;
+    });
 };
 
 //Получить все воркауты
