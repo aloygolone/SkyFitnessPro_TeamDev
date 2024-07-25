@@ -7,10 +7,11 @@ import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
 import {
   deleteMatchedCourse,
   fetchAddFavoriteCourseToUser,
-  
 } from "../../../api/userCourses_api";
 import { useUserData } from "../../../hooks/useUserData";
 import { CourseType } from "../../../types";
+import { database } from "../../../api/db_config";
+import { ref, set } from "firebase/database";
 
 type CourseCardType = {
   isMainPage: boolean;
@@ -26,7 +27,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     useState<boolean>(false);
 
   const [addedCourse, setAddedCourse] = useState<string[]>([]);
-
+  const [deletedCourse, setDeletedCourse] = useState<string[]>([]);
   const [courses, setCourses] = useState<CourseType[]>();
 
   const { user } = useUserData();
@@ -47,18 +48,39 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     });
   });
 
+  // const handleAddCourse = (id: string) => {
+  //   if (user) {
+  //     fetchAddFavoriteCourseToUser(user.id, id);
+  //     setAddedCourse([...addedCourse, id]);
+
+  //   } else {
+  //     alert("Войдите, чтобы добавить курс");
+  //   }
+  // };
   const handleAddCourse = (id: string) => {
     if (user) {
       fetchAddFavoriteCourseToUser(user.id, id)
-      setAddedCourse([...id])
+        .then(() => {
+          setAddedCourse([...addedCourse, id]); // Обновляем состояние addedCourse, добавляя новый курс
+        })
+        .catch((error) => {
+          // Обработка ошибки при добавлении курса
+          console.error("Ошибка при добавлении курса:", error);
+        });
     } else {
       alert("Войдите, чтобы добавить курс");
     }
   };
+  // const handleDeleteCourse = async (id: string) => {
+  //   console.log(CourseCard);
+  //   deleteMatchedCourse(user!.id, id);
+  // };
 
-  const handleDeleteCourse = (id: string) => {
+  const handleDeleteCourse = (id:string) => {
     deleteMatchedCourse(user!.id, id);
+    setAddedCourse(addedCourse.filter(courseId => courseId !== id));
   };
+  // Обновляем состояние addedCourse,
 
   // useEffect(() => {
   //   if (user) {
@@ -105,7 +127,10 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                 {isMainPage ? (
                   <div className="relative inline-block cursor-pointer">
                     {addedCourse.includes(el._id) && (
-                      <svg className="m-[20px] h-[32px] w-[32px]">
+                      <svg className="m-[20px] h-[32px] w-[32px]"
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={() => handleMouseLeave(index)}
+                      onClick={() => handleDeleteCourse(el._id)}>
                         <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                       </svg>
                     )}

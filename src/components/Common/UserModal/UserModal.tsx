@@ -18,7 +18,7 @@ export default function UserModal({
   return (
     <div className="rounded-blockRadius p-l absolute right-0 top-16 z-[9999] mt-[74px] grid gap-[34px] bg-white text-center shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)]">
       <div className="grid gap-2.5">
-        <div className=" text-lg/[19.8px] font-normal">Сергей</div>
+        <div className=" text-lg/[19.8px] font-normal">{user?.email}</div>
         <div className="text-lg/[19.8px] font-normal md:text-stone-500">
           {user?.email}
         </div>

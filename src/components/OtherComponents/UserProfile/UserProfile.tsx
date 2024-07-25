@@ -78,7 +78,7 @@ export default function UserProfile() {
             className="flex flex-col gap-[10px] "
           >
             <h3 className="text-[32px] sm:text-[26px] font-medium leading-[35px]">
-              Сергей
+              {user?.email}
             </h3>
             <div className="mt-3 text-[18px] font-normal leading-[19px]">
               Логин: {user?.email}
