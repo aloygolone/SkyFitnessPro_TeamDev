@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CourseCard from "../../Common/CourseCard/CourseCard";
+// import CourseCard from "../../Common/CourseCard/CourseCard";
 import SigninForm from "../../Common/SigninForm/SigninForm";
 
 export default function CallText() {
@@ -25,7 +25,7 @@ export default function CallText() {
   }
 
   return (
-    <div className="rounded-blockRadius container absolute top-[95px] z-40 mx-auto mb-10 mt-20 flex overflow-hidden shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] md:relative">
+    <div className="rounded-blockRadius container absolute top-[95px] z-40 mx-auto mb-10 mt-20 flex overflow-hidden shadow-[0_4px_67px_-12px_rgba(0,0,0,0.13)] md:relative md:mt-0">
       <div className="container relative flex flex-col p-7">
         <h2 className="text-3xl font-medium md:text-6xl">
           Начните путь <br />к новому телу
@@ -53,9 +53,9 @@ export default function CallText() {
               Войдите, чтобы добавить курс
             </button>
           )}
-          {isAddCourse && <CourseCard setIsAddCourse={setIsAddCourse} />}
+         
           {isOpenSigninForm && (
-            <SigninForm setIsOpenSigninForm={setIsOpenSigninForm} />
+            <SigninForm setIsOpenedSigninForm={setIsOpenSigninForm} />
           )}
         </div>
       </div>

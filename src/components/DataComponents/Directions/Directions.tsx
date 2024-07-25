@@ -5,7 +5,7 @@ type DirectionsType = {
 export default function Directions({ directions }: DirectionsType) {
   return (
     <div className="container mx-auto flex flex-col">
-      <p className="mb-6 mt-8 text-2xl font-bold md:pb-10 md:text-5xl">
+      <p className="mb-6 mt-8 text-2xl font-bold md:mb-14 md:mt-14 md:text-5xl">
         Направления
       </p>
       <div className="rounded-blockRadius container flex flex-row bg-mainColor md:flex-col">
