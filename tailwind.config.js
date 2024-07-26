@@ -2,6 +2,13 @@
 
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  safelist: [ // Вот здесь укажи все возможные классы
+    'bg-yogaColor',
+    'bg-stretchingColor',
+    'bg-zumbaColor',
+    'bg-stepAerobicColor',
+    'bg-bodyFlexColor',
+  ],
   theme: {
     screens: {
       sm: "480px",
@@ -40,11 +47,14 @@ export default {
       },
       borderRadius: {
         inputRadius: "8px",
-        blockRadius: "30px",
+        blockRadiusMin: "28px",
+        blockRadiusMax: "30px",
         buttonRadius: "46px",
         progressRadius: "50px",
       },
       padding: {
+        btnYsm: "8px",
+        btnXsm: "16px",
         inptY: "16px",
         inptX: "18px",
         btnY: "16px",

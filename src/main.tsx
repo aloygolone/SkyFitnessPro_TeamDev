@@ -4,16 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { UserDataProvider } from "./context/UserDataProvider.tsx";
 import App from "./App.tsx";
-
+import { CourseProvider } from "./context/CoursesProvider.tsx";
 
 const app = document.getElementById("root")!;
 
 ReactDOM.createRoot(app).render(
   <BrowserRouter>
     <React.StrictMode>
-      <UserDataProvider>
-        <App />
-      </UserDataProvider>
+      <CourseProvider>
+        <UserDataProvider>
+          <App />
+        </UserDataProvider>
+      </CourseProvider>
     </React.StrictMode>
   </BrowserRouter>,
 );

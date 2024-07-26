@@ -1,5 +1,5 @@
 import { createContext, FC, PropsWithChildren, useState } from "react";
-import { ContextType, UserType } from "../types";
+import { UserContextType, UserType } from "../types";
 
 function getUserFromLocalStorage(): UserType | null {
   const res = localStorage.getItem("user");
@@ -13,7 +13,7 @@ function getUserFromLocalStorage(): UserType | null {
   return null;
 }
 
-export const UserDataContext = createContext<ContextType | null>(null);
+export const UserDataContext = createContext<UserContextType>({user: null, login: null, logout: null});
 
 export const UserDataProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState(getUserFromLocalStorage());
