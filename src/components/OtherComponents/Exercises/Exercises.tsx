@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "../../../css/style.css";
 import { ExerciseType } from "../../../types";
 // import { useCourses } from "../../../hooks/useCourses";
@@ -11,13 +12,20 @@ export default function Exercises({
   setIsOpenedMyProgress,
   exercises,
 }: Exercises) {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   // const { courses } = useCourses();
   // const trainingNumber = courses
   //   .find((el) => el.workouts._id === workout._id)
   //   .indexOf(workout._id);
 
+  useEffect(() => {
+    setIsButtonDisabled(exercises.length === 0);
+  }, [exercises]);
+
   function handleClick() {
-    setIsOpenedMyProgress(true);
+    if (!isButtonDisabled) {
+      setIsOpenedMyProgress(true);
+    }
   }
 
   return (
@@ -40,8 +48,9 @@ export default function Exercises({
 
       <button
         onClick={handleClick}
-        className="rounded-[30px] bg-mainColor text-[18px]"
         type="button"
+        disabled={isButtonDisabled}
+        className={`rounded-[30px] text-[18px] ${isButtonDisabled ? "cursor-not-allowed bg-gray-300 text-gray-600" : "bg-mainColor hover:bg-mainHover active:bg-black active:text-bgColor"}`}
       >
         <p className="mx-[37px] my-[16px]">Заполнить свой прогресс</p>
       </button>

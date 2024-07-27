@@ -2,13 +2,15 @@ import { ChangeEvent, useState } from "react";
 import "../../../css/style.css";
 import { ExerciseType } from "../../../types";
 
-
 type MyProgress = {
   setIsOpenedMyProgress: (arg: boolean) => void;
   exercises: ExerciseType[];
 };
 
-export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: MyProgress) {
+export default function MyProgressModal({
+  setIsOpenedMyProgress,
+  exercises,
+}: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [progressData, setProgressData] = useState<{ [key: number]: string }>(
     {},
@@ -18,7 +20,7 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
     const allInputsFilled = exercises.every(
       (el, index) =>
         progressData[index]?.trim() !== "" &&
-      exercises.length === Object.keys(progressData).length,
+        exercises.length === Object.keys(progressData).length,
     );
 
     if (allInputsFilled) {

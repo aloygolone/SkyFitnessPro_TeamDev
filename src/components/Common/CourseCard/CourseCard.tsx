@@ -32,6 +32,8 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   const [courseId, setCourseId] = useState<string>("");
 
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+
   const handleMouseEnter = (id: number) => {
     setShowTooltips((prev) => ({ ...prev, [id]: true }));
   };
@@ -43,6 +45,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
   useEffect(() => {
     getCourses().then((data) => {
       setCourses(data);
+      setIsButtonDisabled(data.length === 0);
     });
   });
 
@@ -86,7 +89,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   return (
     <>
-      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start">
+      <div className="mt-[40px] flex flex-wrap justify-center gap-[40px] sm:mt-[50px] sm:justify-center md:justify-center lg:justify-start">
         {courses?.map((el, index) => (
           <div
             key={index}
@@ -183,8 +186,13 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                   </div>
                   <button
                     onClick={() => handleStartWorkout(el._id)}
-                    className="mb-[15px] mt-[34px] block w-full rounded-[30px] bg-mainColor text-[18px] hover:bg-mainHover"
+                    className={`mb-[15px] mt-[34px] block w-full rounded-[30px] text-[18px] ${
+                      isButtonDisabled
+                        ? "cursor-not-allowed bg-gray-300 text-gray-600"
+                        : "bg-mainColor hover:bg-mainHover active:bg-black active:text-bgColor"
+                    }`}
                     type="button"
+                    disabled={isButtonDisabled}
                   >
                     <h2 className="mx-[68px] my-[16px]">
                       {"Начать тренировку"}

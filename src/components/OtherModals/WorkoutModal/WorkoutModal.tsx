@@ -22,7 +22,7 @@ export default function WorkoutModal({
     getCourses().then((data) => {
       setCourses(data);
     });
-  });
+  }, []);
 
   const navigate = useNavigate();
 
@@ -42,11 +42,11 @@ export default function WorkoutModal({
       const matchedWorkouts = data.filter((element) =>
         courseWorkouts?.find((el) => el === element._id),
       );
-      
-      setWorkouts(matchedWorkouts)
 
+      setWorkouts(matchedWorkouts);
     });
-  });
+  }, [courses, id]);
+
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-20">
       <div className="flex w-[343px] justify-center rounded-[30px] bg-white p-[30px] shadow-blockShadow sm:w-[460px] sm:p-[40px]">
@@ -101,7 +101,11 @@ export default function WorkoutModal({
             </div>
             <div className="mt-[34px] flex content-center items-center justify-center">
               <button
-                className="block w-full rounded-[30px] bg-mainColor text-[18px] hover:bg-mainHover"
+                className={`block w-full rounded-[30px] text-[18px] ${
+                  training
+                    ? "bg-mainColor hover:bg-mainHover active:bg-black active:text-bgColor"
+                    : "cursor-not-allowed border-[1px] border-gray-600 bg-bgColor text-gray-600"
+                }`}
                 disabled={training === null && true}
                 onClick={handleClickStart}
                 type="button"

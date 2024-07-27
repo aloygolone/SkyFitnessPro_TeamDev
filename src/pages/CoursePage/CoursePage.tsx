@@ -10,29 +10,28 @@ import { useEffect } from "react";
 import { getCourses } from "../../api/courses_api";
 
 export default function CoursePage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { courses, setCourses } = useCourses();
 
   useEffect(() => {
     getCourses().then((data) => {
-      setCourses(data)
-    })
-  })
+      setCourses(data);
+    });
+  }, [setCourses]);
 
   const courseData = courses.find((el) => el._id === id);
   return (
     <>
       <div className="md: container mx-auto flex flex-col">
         <Header page={"CorrectForTextPage"} />
-        <CourseLogo courseName={courseData.nameRU} />
-        <FittingText fittings={courseData.fitting} />
-        <Directions directions={courseData.directions} />
+        <CourseLogo courseName={courseData!.nameRU} />
+        <FittingText fittings={courseData!.fitting} />
+        <Directions directions={courseData!.directions} />
         <div className="relative">
-          
           <LowStartMan />
           <CallText />
         </div>
       </div>
     </>
   );
-}	
+}
