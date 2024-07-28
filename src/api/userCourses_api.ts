@@ -132,11 +132,9 @@ export const fetchAddFavoriteCourseToUser = async (
     workoutsByCourseIdSnapshot.val()?.find((el: string) => el === element?._id),
   ); // Создаем массив с данными workouts для конкретного выбранного курса
 
-  console.log(workoutsDataByCourseId);
-
   const workoutsOfUser = workoutsDataByCourseId.map((el) => {
     if (el.exercises) {
-      const userExercises = el.exercises?.map((element: ExerciseType) => {
+      const userExercises = el.exercises.map((element: ExerciseType) => {
         return (element = {
           name: element.name,
           quantity: element.quantity || 0,
@@ -147,22 +145,17 @@ export const fetchAddFavoriteCourseToUser = async (
       return (el = {
         _id: el._id,
         exercises: userExercises,
-        name: el.name,
-        video: el.video,
       });
     } else {
       return {};
     }
-
-    
   }); // Создаем объект workouts, который будем записывать внутри /users/${userId}/${courseId}/${workoutId}
 
-  console.log(workoutsOfUser);
-
   delete courseData.workouts;
+  delete courseData.description;
+  delete courseData.directions;
+  delete courseData.fitting;
   courseData.workouts = workoutsOfUser;
-
-  console.log(courseData);
 
   if (courseSnapshot.exists()) {
     set(ref(database, `users/${userId}/${courseId}`), courseData);

@@ -38,3 +38,4 @@ export interface ExerciseType {
   progress: number;
   quantity: number;
 }
+
