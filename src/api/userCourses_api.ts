@@ -116,30 +116,38 @@ export const fetchAddFavoriteCourseToUser = async (
   userId: string,
   courseId: string,
 ) => {
-  const coursesSnapshot = await get(
+  const courseSnapshot = await get(
     child(ref(database), `courses/${courseId}`),
   ); // Получаем конкретный курс по ID
 
+
+  const courseData = courseSnapshot.val()
+
   const workoutsSnapshot = await get(child(ref(database), `workouts`)); // Получаем все существующие workouts
+
+
+  const workoutsValues = Object.values(workoutsSnapshot.val())
+
 
   const workoutsByCourseIdSnapshot = await get(
     child(ref(database), `courses/${courseId}/workouts`),
   ); //Получаем массив workouts из конкретного курса
 
-  const mathedWorkoutsOfCourse: WorkoutType[] = workoutsSnapshot
-    .val()
-    .filter((element: WorkoutType[]) =>
+  const workoutsDataByCourseId = workoutsValues
+    .filter((element) =>
       workoutsByCourseIdSnapshot
         .val()
-        ?.find((el: WorkoutType) => el === element._id),
+        ?.find((el: string) => el === element?._id),
     ); // Создаем массив с данными workouts для конкретного выбранного курса
 
-  const workoutsOfUser = mathedWorkoutsOfCourse.map((el) => {
-    const userExercises: ExerciseType[] = el.exercises.map(
+    console.log(workoutsDataByCourseId)
+
+  const workoutsOfUser = workoutsDataByCourseId.map((el) => {
+    const userExercises = el.exercises.map(
       (element: ExerciseType) => {
         return (element = {
           name: element.name,
-          quantity: element.quantity,
+          quantity: element.quantity || 0,
           progress: 0,
         });
       },
@@ -153,10 +161,14 @@ export const fetchAddFavoriteCourseToUser = async (
     });
   }); // Создаем объект workouts, который будем записывать внутри /users/${userId}/${courseId}/${workoutId}
 
-  delete coursesSnapshot.val().workouts;
-  coursesSnapshot.val().workouts = workoutsOfUser;
+  console.log(workoutsOfUser)
 
-  if (coursesSnapshot.exists()) {
-    set(ref(database, `users/${userId}/${courseId}`), coursesSnapshot.val());
+  delete courseData.workouts;
+  courseData.workouts = workoutsOfUser;
+
+  console.log(courseData)
+
+  if (courseSnapshot.exists()) {
+    set(ref(database, `users/${userId}/${courseId}`), courseData);
   }
 };
