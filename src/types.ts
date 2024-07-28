@@ -38,3 +38,8 @@ export interface ExerciseType {
   progress: number;
   quantity: number;
 }
+
+export interface UserWorkoutType {
+  _id: string;
+  exercises: ExerciseType[];
+}
