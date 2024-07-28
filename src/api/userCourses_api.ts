@@ -1,4 +1,4 @@
-import { CourseType, WorkoutType } from "../types";
+import { CourseType, ExerciseType, WorkoutType } from "../types";
 import { ref, get, child, set } from "firebase/database";
 import { getCourseByID } from "./courses_api";
 import { database } from "./db_config";
@@ -79,7 +79,6 @@ export const getWorkoutById = async (
   userId: string,
   courseId: string,
 ) => {
-
   let result: WorkoutType | null = null;
 
   try {
@@ -117,8 +116,47 @@ export const fetchAddFavoriteCourseToUser = async (
   userId: string,
   courseId: string,
 ) => {
-  const snapshot = await get(child(ref(database), `courses/${courseId}`));
-  if (snapshot.exists()) {
-    set(ref(database, `users/${userId}/${courseId}`), snapshot.val());
+  const coursesSnapshot = await get(
+    child(ref(database), `courses/${courseId}`),
+  ); // Получаем конкретный курс по ID
+
+  const workoutsSnapshot = await get(child(ref(database), `workouts`)); // Получаем все существующие workouts
+
+  const workoutsByCourseIdSnapshot = await get(
+    child(ref(database), `courses/${courseId}/workouts`),
+  ); //Получаем массив workouts из конкретного курса
+
+  const mathedWorkoutsOfCourse: WorkoutType[] = workoutsSnapshot
+    .val()
+    .filter((element: WorkoutType[]) =>
+      workoutsByCourseIdSnapshot
+        .val()
+        ?.find((el: WorkoutType) => el === element._id),
+    ); // Создаем массив с данными workouts для конкретного выбранного курса
+
+  const workoutsOfUser = mathedWorkoutsOfCourse.map((el) => {
+    const userExercises: ExerciseType[] = el.exercises.map(
+      (element: ExerciseType) => {
+        return (element = {
+          name: element.name,
+          quantity: element.quantity,
+          progress: 0,
+        });
+      },
+    );
+
+    return (el = {
+      _id: el._id,
+      exercises: userExercises,
+      name: el.name,
+      video: el.video,
+    });
+  }); // Создаем объект workouts, который будем записывать внутри /users/${userId}/${courseId}/${workoutId}
+
+  delete coursesSnapshot.val().workouts;
+  coursesSnapshot.val().workouts = workoutsOfUser;
+
+  if (coursesSnapshot.exists()) {
+    set(ref(database, `users/${userId}/${courseId}`), coursesSnapshot.val());
   }
 };
