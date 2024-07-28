@@ -39,3 +39,7 @@ export interface ExerciseType {
   quantity: number;
 }
 
+export interface UserWorkoutType {
+  _id: string;
+  exercises: ExerciseType[];
+}

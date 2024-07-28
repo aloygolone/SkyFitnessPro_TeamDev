@@ -1,4 +1,4 @@
-import { CourseType, ExerciseType, WorkoutType } from "../types";
+import { CourseType, ExerciseType, UserWorkoutType } from "../types";
 import { ref, get, child, set } from "firebase/database";
 import { getCourseByID } from "./courses_api";
 import { database } from "./db_config";
@@ -116,33 +116,34 @@ export const fetchAddFavoriteCourseToUser = async (
   userId: string,
   courseId: string,
 ) => {
-
   // Получаем конкретный курс по ID
 
-  const courseSnapshot = await get(child(ref(database), `courses/${courseId}`)); 
+  const courseSnapshot = await get(child(ref(database), `courses/${courseId}`));
 
   const courseData = courseSnapshot.val();
 
   // Получаем все существующие workouts
 
-  const workoutsSnapshot = await get(child(ref(database), `workouts`)); 
-  const workoutsValues = Object.values(workoutsSnapshot.val());
+  const workoutsSnapshot = await get(child(ref(database), `workouts`));
+  const workoutsValues: UserWorkoutType[] = Object.values(
+    workoutsSnapshot.val(),
+  );
 
   //Получаем массив workouts из конкретного курса
 
   const workoutsByCourseIdSnapshot = await get(
     child(ref(database), `courses/${courseId}/workouts`),
-  ); 
+  );
 
-  const workoutsByCourseId = workoutsByCourseIdSnapshot.val()
+  const workoutsByCourseId = workoutsByCourseIdSnapshot.val();
 
   // Создаем массив с данными workouts для конкретного выбранного курса
 
   const workoutsDataByCourseId = workoutsValues.filter((element) =>
     workoutsByCourseId.find((el: string) => el === element?._id),
-  ); 
+  );
 
-  // Создаем объект workouts, который будем записывать внутри БД - /users/${userId}/${courseId}/${workoutId} 
+  // Создаем объект workouts, который будем записывать внутри БД - /users/${userId}/${courseId}/${workoutId}
 
   const workoutsOfUser = workoutsDataByCourseId.map((el) => {
     if (el.exercises) {
