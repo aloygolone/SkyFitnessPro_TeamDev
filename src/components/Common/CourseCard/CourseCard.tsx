@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../../css/style.css";
 import { courseLogoSrc } from "../../../lib/courseSettings";
 import { Link } from "react-router-dom";
 import {
   deleteMatchedCourse,
   fetchAddFavoriteCourseToUser,
+  getAddedCourseOfUser,
 } from "../../../api/userCourses_api";
 import { useUserData } from "../../../hooks/useUserData";
 import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
@@ -53,15 +54,15 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     setAddedCourse([...id]);
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     getAddedCourseOfUser(user.id).then((data) => {
-  //       if (data) {
-  //         setAddedCourse(data);
-  //       }
-  //     });
-  //   }
-  // });
+  useEffect(() => {
+    if (user) {
+      getAddedCourseOfUser(user.id).then((data) => {
+        if (data) {
+          setAddedCourse(data);
+        }
+      });
+    }
+  });
 
   // useEffect(() => {
   //   if (user && !isMainPage) {
@@ -98,7 +99,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                 {isMainPage ? (
                   <div className="relative inline-block cursor-pointer">
                     {addedCourse.includes(el._id) && (
-                      <svg className="m-[20px] h-[32px] w-[32px]">
+                      <svg className="m-[20px] h-[32px] w-[32px] border-[2px] border-white rounded-full">
                         <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                       </svg>
                     )}

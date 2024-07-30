@@ -43,3 +43,11 @@ export interface UserWorkoutType {
   _id: string;
   exercises: ExerciseType[];
 }
+
+export interface UserCourseType {
+  _id: string;
+  nameEN: string;
+  nameRU: string;
+  order: number;
+  workouts: UserWorkoutType[];
+}

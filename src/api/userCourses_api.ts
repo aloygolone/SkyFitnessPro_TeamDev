@@ -1,26 +1,14 @@
-import { CourseType, ExerciseType, UserWorkoutType } from "../types";
+import { ExerciseType, UserWorkoutType } from "../types";
 import { ref, get, child, set } from "firebase/database";
-import { getCourseByID } from "./courses_api";
 import { database } from "./db_config";
 
-export const getAddedCourseOfUser = async (
-  userId: string,
-): Promise<CourseType[]> => {
+export const getAddedCourseOfUser = async (userId: string) => {
   try {
     const snapshot = await get(child(ref(database), `users/${userId}`));
 
     if (snapshot.exists()) {
-      const promises = Object.keys(snapshot.val()).map(async (key) => {
-        const data = await getCourseByID(key);
-        const dataWithProgress = {
-          ...data,
-          progress: snapshot.val()[key].progress,
-        };
-        return dataWithProgress;
-      });
-
-      const result = await Promise.all(promises);
-      return result;
+      const userCoursesIds = Object.keys(snapshot.val());
+      return userCoursesIds;
     }
     return [];
   } catch (e) {
