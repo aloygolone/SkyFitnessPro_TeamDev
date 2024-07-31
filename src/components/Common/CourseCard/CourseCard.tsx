@@ -10,6 +10,7 @@ import {
 import { useUserData } from "../../../hooks/useUserData";
 import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
 import { useCourses } from "../../../hooks/useCourses";
+import { CourseType } from "../../../types";
 
 type CourseCardType = {
   isMainPage: boolean;
@@ -25,6 +26,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     useState<boolean>(false);
 
   const [addedCourse, setAddedCourse] = useState<string[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
   const { courses } = useCourses();
 
@@ -64,15 +66,17 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     }
   });
 
-  // useEffect(() => {
-  //   if (user && !isMainPage) {
-  //     getAddedCourseOfUser(user.id).then((data) => {
-  //       const addedCourses = courses?.filter((el) => data.includes(el._id))
-  //       setCourses()
-  //       setAddedCourse(data);
-  //     });
-  //   }
-  // })
+  useEffect(() => {
+    if (!isMainPage) {
+      setFilteredCourses(
+        courses.filter((element) =>
+          addedCourse.find((el: string) => el === element?._id),
+        ),
+      );
+    } else {
+      setFilteredCourses(courses);
+    }
+  }, [addedCourse, courses, isMainPage]);
 
   const handleStartWorkout = (id: string) => {
     setCourseId(id);
@@ -82,7 +86,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
   return (
     <>
       <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start">
-        {courses?.map((el, index) => (
+        {filteredCourses?.map((el, index) => (
           <div
             key={index}
             className="rounded-[30px] bg-bgColor shadow-blockShadow"
@@ -91,7 +95,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               <Link to={`/course/${el._id}`}>
                 <img
                   className="rounded-[30px] object-contain"
-                  src={courseLogoSrc.find((el) => el.id === index)?.imgSrc}
+                  src={courseLogoSrc.find((element) => element.id === el._id)?.imgSrc}
                   alt=""
                 />
               </Link>
@@ -99,7 +103,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                 {isMainPage ? (
                   <div className="relative inline-block cursor-pointer">
                     {addedCourse.includes(el._id) && (
-                      <svg className="m-[20px] h-[32px] w-[32px] border-[2px] border-white rounded-full">
+                      <svg className="m-[20px] h-[32px] w-[32px] rounded-full border-[2px] border-white">
                         <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                       </svg>
                     )}
