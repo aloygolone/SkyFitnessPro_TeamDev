@@ -12,6 +12,7 @@ import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
 import { useCourses } from "../../../hooks/useCourses";
 import { CourseType } from "../../../types";
 import { useUserCourses } from "../../../hooks/useUserCourses";
+import { totalProgress } from "../../../utils/progressCalculator/progressCalculator";
 
 type CourseCardType = {
   isMainPage: boolean;
@@ -175,7 +176,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                 <div>
                   <div>
                     <p className="flex justify-start bg-bgColor text-[18px]">
-                      Прогресс {0}%
+                      Прогресс {totalProgress(userCourses.find((element) => element._id === el._id)?.workouts.map((elem) => elem.exercises.map((e) => e.progress)))}%
                     </p>
                     <progress
                       className="inline-block h-[6px] w-full appearance-none align-middle"
