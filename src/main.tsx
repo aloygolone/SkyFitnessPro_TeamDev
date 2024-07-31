@@ -5,6 +5,7 @@ import "./index.css";
 import { UserDataProvider } from "./context/UserDataProvider.tsx";
 import App from "./App.tsx";
 import { CourseProvider } from "./context/CoursesProvider.tsx";
+import { UserCoursesProvider } from "./context/UserCoursesProvider.tsx";
 
 const app = document.getElementById("root")!;
 
@@ -13,7 +14,9 @@ ReactDOM.createRoot(app).render(
     <React.StrictMode>
       <CourseProvider>
         <UserDataProvider>
-          <App />
+          <UserCoursesProvider>
+            <App />
+          </UserCoursesProvider>
         </UserDataProvider>
       </CourseProvider>
     </React.StrictMode>
