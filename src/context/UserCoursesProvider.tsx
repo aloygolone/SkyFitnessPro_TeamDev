@@ -5,7 +5,7 @@ export const UserCoursesContext = createContext<UserCoursesContextType | null>(
   null,
 );
 
-export const CourseProvider: FC<PropsWithChildren> = ({ children }) => {
+export const UserCoursesProvider: FC<PropsWithChildren> = ({ children }) => {
   const [userCourses, setUserCourses] = useState<UserCourseType[]>([]);
 
   return (
