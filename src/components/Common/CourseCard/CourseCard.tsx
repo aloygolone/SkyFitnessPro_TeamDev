@@ -11,6 +11,7 @@ import { useUserData } from "../../../hooks/useUserData";
 import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
 import { useCourses } from "../../../hooks/useCourses";
 import { CourseType } from "../../../types";
+import { useUserCourses } from "../../../hooks/useUserCourses";
 
 type CourseCardType = {
   isMainPage: boolean;
@@ -25,8 +26,9 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
   const [isOpenedWorkoutModal, setIsOpenedWorkoutModal] =
     useState<boolean>(false);
 
-  const [addedCourse, setAddedCourse] = useState<string[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
+
+  const { userCourses, setUserCourses } = useUserCourses()
 
   const { courses } = useCourses();
 
@@ -45,7 +47,6 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
   const handleAddCourse = (id: string) => {
     if (user) {
       fetchAddFavoriteCourseToUser(user.id, id);
-      setAddedCourse([...id]);
     } else {
       alert("Войдите, чтобы добавить курс");
     }
@@ -53,14 +54,13 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   const handleDeleteCourse = (id: string) => {
     deleteMatchedCourse(user!.id, id);
-    setAddedCourse([...id]);
   };
 
   useEffect(() => {
     if (user) {
       getAddedCourseOfUser(user.id).then((data) => {
         if (data) {
-          setAddedCourse(data);
+          setUserCourses(data);
         }
       });
     }
@@ -70,13 +70,13 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     if (!isMainPage) {
       setFilteredCourses(
         courses.filter((element) =>
-          addedCourse.find((el: string) => el === element?._id),
+          userCourses.find((el) => el._id === element?._id),
         ),
       );
     } else {
       setFilteredCourses(courses);
     }
-  }, [addedCourse, courses, isMainPage]);
+  }, [userCourses, courses, isMainPage]);
 
   const handleStartWorkout = (id: string) => {
     setCourseId(id);
@@ -85,7 +85,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   return (
     <>
-      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start">
+      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start bg-white">
         {filteredCourses?.map((el, index) => (
           <div
             key={index}
@@ -95,19 +95,22 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               <Link to={`/course/${el._id}`}>
                 <img
                   className="rounded-[30px] object-contain"
-                  src={courseLogoSrc.find((element) => element.id === el._id)?.imgSrc}
+                  src={
+                    courseLogoSrc.find((element) => element.id === el._id)
+                      ?.imgSrc
+                  }
                   alt=""
                 />
               </Link>
               <div className="absolute right-0 top-0">
                 {isMainPage ? (
                   <div className="relative inline-block cursor-pointer">
-                    {addedCourse.includes(el._id) && (
+                    {userCourses.find((element) => element._id === el._id) && (
                       <svg className="m-[20px] h-[32px] w-[32px] rounded-full border-[2px] border-white">
                         <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                       </svg>
                     )}
-                    {!addedCourse.includes(el._id) && (
+                    {!userCourses.find((element) => element._id === el._id) && (
                       <svg
                         className="m-[20px] h-[32px] w-[32px]"
                         onMouseEnter={() => handleMouseEnter(index)}
@@ -117,7 +120,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                         <use xlinkHref="/public/icons/sprite.svg#icon-plus" />
                       </svg>
                     )}
-                    {showTooltips[index] && !addedCourse && (
+                    {showTooltips[index] && !userCourses && (
                       <span className="absolute left-[64px] z-[1] whitespace-nowrap rounded-[5px] border-[1px] border-black bg-white p-[6px] pl-[20px] pr-[20px] text-center text-black">
                         Добавить курс
                       </span>

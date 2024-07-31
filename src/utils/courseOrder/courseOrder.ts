@@ -1,6 +1,6 @@
-import { CourseType } from "../../types";
+import { UserCourseType } from "../../types";
 
-export function courseOrder(a: CourseType, b: CourseType) {
+export function courseOrder(a: UserCourseType, b: UserCourseType) {
   if (a.order < b.order) {
     return -1;
   }

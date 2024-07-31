@@ -1,10 +1,10 @@
-import { CourseType, ExerciseType, UserWorkoutType } from "../types";
+import { ExerciseType, UserCourseType, UserWorkoutType } from "../types";
 import { ref, get, child, set } from "firebase/database";
 import { database } from "./db_config";
 import { courseOrder } from "../utils/courseOrder/courseOrder";
 
 export const getAddedCourseOfUser = async (userId: string) => {
-  let sortResult: CourseType[] = []; 
+  let sortResult: UserCourseType[] = []; 
   try {
     const snapshot = await get(child(ref(database), `users/${userId}`));
 
@@ -15,8 +15,7 @@ export const getAddedCourseOfUser = async (userId: string) => {
 
       sortResult = sortResult.sort(courseOrder);
 
-      const userCoursesIds = sortResult.map((el) => el._id)
-      return userCoursesIds;
+      return sortResult;
     }
       
     return [];
