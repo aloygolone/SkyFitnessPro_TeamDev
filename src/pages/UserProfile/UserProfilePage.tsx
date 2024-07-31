@@ -3,8 +3,8 @@ import CourseCard from "../../components/Common/CourseCard/CourseCard";
 import Header from "../../components/Common/Header/Header";
 import UserProfile from "../../components/OtherComponents/UserProfile/UserProfile";
 import { useCourses } from "../../hooks/useCourses";
-import { getAddedCourseOfUser } from "../../api/userCourses_api";
 import { useUserData } from "../../hooks/useUserData";
+import { getCourses } from "../../api/courses_api";
 
 export default function UserProfilePage() {
   const { setCourses } = useCourses();
@@ -12,7 +12,7 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     if (user) {
-      getAddedCourseOfUser(user.id).then((data) => {
+      getCourses().then((data) => {
         setCourses(data);
       });
     }

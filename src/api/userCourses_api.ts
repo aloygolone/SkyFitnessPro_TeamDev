@@ -1,32 +1,29 @@
-import { CourseType, ExerciseType, UserWorkoutType } from "../types";
+import { ExerciseType, UserCourseType, UserWorkoutType } from "../types";
 import { ref, get, child, set } from "firebase/database";
-import { getCourseByID } from "./courses_api";
 import { database } from "./db_config";
+import { courseOrder } from "../utils/courseOrder/courseOrder";
 
-export const getAddedCourseOfUser = async (
-  userId: string,
-): Promise<CourseType[]> => {
+export const getAddedCourseOfUser = async (userId: string) => {
+  let sortResult: UserCourseType[] = []; 
   try {
     const snapshot = await get(child(ref(database), `users/${userId}`));
 
     if (snapshot.exists()) {
-      const promises = Object.keys(snapshot.val()).map(async (key) => {
-        const data = await getCourseByID(key);
-        const dataWithProgress = {
-          ...data,
-          progress: snapshot.val()[key].progress,
-        };
-        return dataWithProgress;
+      Object.keys(snapshot.val()).forEach((key) => {
+        sortResult.push(snapshot.val()[key]);
       });
 
-      const result = await Promise.all(promises);
-      return result;
+      sortResult = sortResult.sort(courseOrder);
+
+      return sortResult;
     }
+      
     return [];
   } catch (e) {
     console.error(e);
     return [];
   }
+
 };
 
 export const deleteMatchedCourse = async (userId: string, courseId: string) => {

@@ -15,6 +15,11 @@ export type CoursesContextType = {
   setCourses: (arg: CourseType[]) => void;
 };
 
+export type UserCoursesContextType = {
+  userCourses: UserCourseType[];
+  setUserCourses: (arg: UserCourseType[]) => void;
+};
+
 export type CourseType = {
   _id: string;
   description: string;
@@ -43,3 +48,11 @@ export interface UserWorkoutType {
   _id: string;
   exercises: ExerciseType[];
 }
+
+export type UserCourseType = {
+  _id: string;
+  nameEN: string;
+  nameRU: string;
+  order: number;
+  workouts: UserWorkoutType[];
+};
