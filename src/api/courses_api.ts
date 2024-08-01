@@ -1,7 +1,7 @@
 import { CourseType, WorkoutType } from "../types";
 import { ref, get, child } from "firebase/database";
-import { courseOrder } from "../utils/courseOrder/courseOrder";
 import { database } from "./db_config";
+import { courseOrder } from "../utils/courseOrder/courseOrder";
 
 export const getCourses = async () => {
   let result: CourseType[] = [];
