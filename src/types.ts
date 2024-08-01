@@ -55,4 +55,5 @@ export type UserCourseType = {
   nameRU: string;
   order: number;
   workouts: UserWorkoutType[];
+  totalProgress: number;
 };

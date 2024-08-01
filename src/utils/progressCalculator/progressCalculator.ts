@@ -10,7 +10,7 @@ export function totalProgress(progressValues: number[]) {
     initialValue,
   );
 
-  const res = (sumValue / progressValues.length) * 100;
+  const res = sumValue / progressValues.length;
 
   return Math.round(res);
 }

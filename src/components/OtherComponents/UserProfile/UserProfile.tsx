@@ -3,11 +3,12 @@ import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { appRoutes } from "../../../lib/appRoutes";
 import { useUserData } from "../../../hooks/useUserData";
+import { changePassword } from "../../../api/userAuth_api";
 
 
 type ErrorType = {
-  password: string,
-  repeatPassword: string,
+  oldPassword: string,
+  newPassword: string,
 }
 
 
@@ -18,7 +19,7 @@ export default function UserProfile() {
   const navigate = useNavigate();
 
 
-  const [passwordData, setPasswordData] = useState<ErrorType>({ password: "", repeatPassword: "" });
+  const [passwordData, setPasswordData] = useState<ErrorType>({ oldPassword: "", newPassword: "" });
 
   // const [isMismatchPassword, setIsMismatchPassword] = useState(false);
 
@@ -37,16 +38,9 @@ export default function UserProfile() {
     setIsChangeMode(true);
   }
 
-  // const handleSubmit = async () => {
-  //   setIsNotCorrectPassword(false);
-  //   await SigninApi(loginData.email, loginData.password)
-  //   .then((userData) => {
-  //     login(userData);
-  //     navigate(appRoutes.MAIN);
-  //   }).catch(() => {
-  //     setIsNotCorrectPassword(true);
-  //   })
-  // };
+  const handleSubmit = async () => {
+    changePassword(passwordData.newPassword)
+  };
     
 
   const handleLogout = () => {
@@ -96,24 +90,24 @@ export default function UserProfile() {
               <>
                 <input
                   className="mb-2.5 h-[52px] w-[280px] px-[18px] py-[12px] text-lg rounded-inputRadius appearance-none border rounded-small border-gray-extra  bg-white-base text-black-base placeholder-gray-extra"
-                  name="password"
+                  name="oldPassword"
                   type="password"
                   placeholder="Старый пароль"
-                  value={passwordData.password}
+                  value={passwordData.oldPassword}
                   onChange={handleInputChange} />
                 <input
                   className="border-error h-[52px] w-[280px] px-[18px] py-[12px] rounded-inputRadius text-lg appearance-none border rounded-small border-gray-extra bg-white-base text-black-base placeholder-gray-extra"
-                  name="repeatPassword"
+                  name="newPassword"
                   type="password"
                   placeholder="Новый пароль"
-                  value={passwordData.repeatPassword}
+                  value={passwordData.newPassword}
                   onChange={handleInputChange} />
               </>
             )}
 
             <div className="mt-5 w-[394px] flex flex-row gap-[10px] sm:items-center">
 
-              {isChangeMode ? (
+              {!isChangeMode ? (
                 <button
                   onClick={handleChangePassword}
                   className="w-[192px] sm:h-[50px] rounded-buttonRadius text-[18px] font-normal leading-[19.8px] 
@@ -124,7 +118,7 @@ export default function UserProfile() {
                 </button>
               ) : (
                 <button
-                  // onClick={handleSubmit}
+                  onClick={handleSubmit}
                   className="w-[192px] sm:h-[50px] rounded-buttonRadius text-[18px] font-normal leading-[19.8px] 
                   border  bg-mainColor hover:bg-mainHover active:bg-black"
                   type="button"

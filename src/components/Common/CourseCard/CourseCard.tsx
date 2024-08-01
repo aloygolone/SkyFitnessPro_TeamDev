@@ -28,7 +28,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
-  const { userCourses, setUserCourses } = useUserCourses()
+  const { userCourses, setUserCourses } = useUserCourses();
 
   const { courses } = useCourses();
 
@@ -83,9 +83,13 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     setIsOpenedWorkoutModal(true);
   };
 
+  const setTotalProgress = (el: CourseType) => {
+    return userCourses.find((element) => element._id === el._id)?.totalProgress;
+  };
+
   return (
     <>
-      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start bg-white">
+      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] bg-white sm:justify-center md:justify-center lg:justify-start">
         {filteredCourses?.map((el, index) => (
           <div
             key={index}
@@ -175,11 +179,11 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                 <div>
                   <div>
                     <p className="flex justify-start bg-bgColor text-[18px]">
-                      Прогресс {0}%
+                      Прогресс {setTotalProgress(el)}%
                     </p>
                     <progress
                       className="inline-block h-[6px] w-full appearance-none align-middle"
-                      value={0}
+                      value={setTotalProgress(el)}
                       max="100"
                     ></progress>
                   </div>
@@ -189,11 +193,11 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                     type="button"
                   >
                     <h2 className="mx-[68px] my-[16px]">
-                      {"Начать тренировку"}
-                      {/* {el.totalProgress === 100 && "Начать заново"}
-                      {el.totalProgress > 0 &&
-                        el.totalProgress !== 100 &&
-                        "Продолжить"} */}
+                      {setTotalProgress(el) === 0
+                        ? "Начать тренировку"
+                        : setTotalProgress(el) === 100
+                          ? "Начать заново"
+                          : "Продолжить"}
                     </h2>
                   </button>
                 </div>
