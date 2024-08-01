@@ -1,27 +1,49 @@
 import { ChangeEvent, useState } from "react";
 import "../../../css/style.css";
 import { ExerciseType } from "../../../types";
-
+import { updateUserProgress } from "../../../api/userCourses_api";
 
 type MyProgress = {
   setIsOpenedMyProgress: (arg: boolean) => void;
   exercises: ExerciseType[];
+  userId: string;
+  workoutId: string;
+  courseId: string;
 };
 
-export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: MyProgress) {
+export default function MyProgressModal({
+  setIsOpenedMyProgress,
+  exercises,
+  userId,
+  workoutId,
+  courseId,
+}: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [progressData, setProgressData] = useState<{ [key: number]: string }>(
+  const [progressData, setProgressData] = useState<{ [key: string]: number }>(
     {},
   );
 
   function handleClickSaveProgress() {
-    const allInputsFilled = exercises.every(
-      (el, index) =>
-        progressData[index]?.trim() !== "" &&
-      exercises.length === Object.keys(progressData).length,
-    );
+    const exercisesData = exercises.map((el) => {
+      const progressKey = Object.keys(progressData).find(
+        (key) => key === el.name,
+      )!;
+      const progressValue = progressData[progressKey];
+      const quantity = exercises.find(
+        (elem) => elem.name === el.name,
+      )?.quantity;
 
-    if (allInputsFilled) {
+      return {
+        name: el.name,
+        progress: progressValue,
+        quantity: quantity || 0,
+      };
+    });
+
+    console.log(exercisesData);
+
+    if (exercisesData) {
+      updateUserProgress(userId, courseId, workoutId, exercisesData);
       setIsSuccess(true);
     } else {
       alert("Заполните все поля.");
@@ -34,15 +56,12 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
     }, 2000);
   }
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    id: number,
-  ): void => {
-    const { value } = e.target;
-    const updatedValue = Number(value) > 100 ? "100" : value;
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    const updatedValue = Number(value) > 100 ? 100 : Number(value);
     setProgressData({
       ...progressData,
-      [id]: updatedValue,
+      [name]: updatedValue,
     });
   };
 
@@ -75,11 +94,12 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
                       {el.name}
                     </p>
                     <input
-                      value={progressData[index] || ""}
-                      onChange={(e) => handleInputChange(e, index)}
+                      name={el.name}
+                      value={progressData.progress}
+                      onChange={(e) => handleInputChange(e)}
                       className="border-colorBorderBtn mb-[20px] h-[47px] w-[237px] rounded-lg border-[1px] p-[20px] text-[18px] opacity-75 sm:w-[288px]"
                       type="number"
-                      placeholder="0"
+                      placeholder={String(el.quantity)}
                     />
                   </div>
                 ))}
