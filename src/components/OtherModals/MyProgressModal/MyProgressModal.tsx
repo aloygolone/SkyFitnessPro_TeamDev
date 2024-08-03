@@ -15,11 +15,13 @@ import {
 type MyProgress = {
   setIsOpenedMyProgress: (arg: boolean) => void;
   workout: WorkoutType;
+  setWorkout: (arg: WorkoutType) => void;
 };
 
 export default function MyProgressModal({
   setIsOpenedMyProgress,
   workout,
+  setWorkout,
 }: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [progressData, setProgressData] = useState<{ [key: string]: number }>(
@@ -83,12 +85,18 @@ export default function MyProgressModal({
       updateUserProgress(user!.id, courseId!, newWorkouts);
       updateTotalProgress(user!.id, courseId!, totalProgress(newTotalProgress));
       setIsSuccess(true);
+      setWorkout({
+        name: workout.name,
+        _id: workout._id,
+        exercises: exercisesData,
+        video: workout.video,
+      });
     }
 
     setTimeout(() => {
       setIsOpenedMyProgress(false);
       setIsSuccess(false);
-    }, 2000);
+    }, 1000);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {

@@ -81,6 +81,7 @@ export default function WorkoutVideoPage() {
         <MyProgressModal
           setIsOpenedMyProgress={setIsOpenedMyProgress}
           workout={workout}
+          setWorkout={setWorkout}
         />
       )}
     </>
