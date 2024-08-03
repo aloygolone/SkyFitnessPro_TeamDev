@@ -1,53 +1,88 @@
 import { ChangeEvent, useState } from "react";
 import "../../../css/style.css";
-import { ExerciseType } from "../../../types";
-import { updateUserProgress } from "../../../api/userCourses_api";
+import { UserWorkoutType, WorkoutType } from "../../../types";
+import { useUserCourses } from "../../../hooks/useUserCourses";
+import {
+  updateTotalProgress,
+  updateUserProgress,
+} from "../../../api/userCourses_api";
+import { useUserData } from "../../../hooks/useUserData";
+import {
+  exerciseProgress,
+  totalProgress,
+} from "../../../utils/progressCalculator/progressCalculator";
 
 type MyProgress = {
   setIsOpenedMyProgress: (arg: boolean) => void;
-  exercises: ExerciseType[];
-  userId: string;
-  workoutId: string;
-  courseId: string;
+  workout: WorkoutType;
 };
 
 export default function MyProgressModal({
   setIsOpenedMyProgress,
-  exercises,
-  userId,
-  workoutId,
-  courseId,
+  workout,
 }: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [progressData, setProgressData] = useState<{ [key: string]: number }>(
     {},
   );
 
+  const { userCourses } = useUserCourses();
+
+  const { user } = useUserData();
+
   function handleClickSaveProgress() {
-    const exercisesData = exercises.map((el) => {
+    const exercisesData = workout.exercises.map((el) => {
       const progressKey = Object.keys(progressData).find(
         (key) => key === el.name,
       )!;
-      const progressValue = progressData[progressKey];
-      const quantity = exercises.find(
+
+      const quantity = workout.exercises.find(
         (elem) => elem.name === el.name,
-      )?.quantity;
+      )!.quantity;
+
+      let progressValue;
+
+      if (quantity === 0 && el.progress === 0) {
+        progressValue = 100;
+      } else {
+        progressValue = exerciseProgress(quantity, progressData[progressKey]);
+      }
 
       return {
         name: el.name,
-        progress: progressValue,
+        progress: progressValue || 100,
         quantity: quantity || 0,
       };
     });
 
-    console.log(exercisesData);
+    const currentCourse = userCourses.find((element) =>
+      element.workouts.find((elem) => elem._id === workout._id),
+    );
+    const workoutId = currentCourse!.workouts.find(
+      (element) => element._id === workout._id,
+    )?._id;
 
-    if (exercisesData) {
-      updateUserProgress(userId, courseId, workoutId, exercisesData);
+    const newWorkoutData: UserWorkoutType = {
+      _id: String(workoutId),
+      exercises: exercisesData,
+    };
+
+    const newWorkouts = currentCourse?.workouts.map((element) =>
+      String(element._id) === String(workoutId)
+        ? (element = newWorkoutData)
+        : element,
+    );
+
+    const courseId = currentCourse!._id;
+
+    const newTotalProgress = newWorkouts!
+      .map((item) => item.exercises.map((element) => element.progress))
+      .flat();
+
+    if (newWorkouts) {
+      updateUserProgress(user!.id, courseId!, newWorkouts);
+      updateTotalProgress(user!.id, courseId!, totalProgress(newTotalProgress));
       setIsSuccess(true);
-    } else {
-      alert("Заполните все поля.");
-      /*  URL.then((response) => setSaveProgress(!isSuccess)) */
     }
 
     setTimeout(() => {
@@ -88,7 +123,7 @@ export default function MyProgressModal({
             </div>
             <div className="overflow-hidden scroll-smooth">
               <div className="h-[364px] overflow-y-scroll scroll-smooth">
-                {exercises?.map((el, index) => (
+                {workout.exercises?.map((el, index) => (
                   <div key={index} className="mr-[20px]">
                     <p className="mb-[10px] rounded-xl text-[16px] sm:text-[18px]">
                       {el.name}

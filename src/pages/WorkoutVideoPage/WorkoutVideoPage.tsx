@@ -22,10 +22,6 @@ export default function WorkoutVideoPage() {
     video: "",
   });
 
-  // const courseId = userCourses.find((element) =>
-  //   element.workouts.find((elem) => elem._id === id),
-  // )?._id;
-
   const exercisesData = userCourses
     .find((element) => element.workouts.find((elem) => elem._id === id))
     ?.workouts.find((e) => e._id === id)?.exercises;
@@ -40,15 +36,17 @@ export default function WorkoutVideoPage() {
     }
   }, [setUserCourses, user]);
 
-  getWorkouts().then((data) => {
-    const matchedWorkout = data.find((el) => el._id === id);
-    setWorkout({
-      name: matchedWorkout!.name,
-      _id: matchedWorkout!._id,
-      exercises: exercisesData || [],
-      video: matchedWorkout!.video,
+  useEffect(() => {
+    getWorkouts().then((data) => {
+      const matchedWorkout = data.find((el) => el._id === id);
+      setWorkout({
+        name: matchedWorkout!.name,
+        _id: matchedWorkout!._id,
+        exercises: exercisesData || [],
+        video: matchedWorkout!.video,
+      });
     });
-  });
+  }, [exercisesData, id]);
 
   return (
     <>
@@ -77,10 +75,7 @@ export default function WorkoutVideoPage() {
       {isOpenedMyProgress && (
         <MyProgressModal
           setIsOpenedMyProgress={setIsOpenedMyProgress}
-          exercises={workout!.exercises}
-          // userId={user!.id}
-          // courseId={courseId!}
-          // workoutId={id!}
+          workout={workout}
         />
       )}
     </>
