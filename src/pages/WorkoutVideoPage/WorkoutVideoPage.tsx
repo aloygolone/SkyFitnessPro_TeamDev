@@ -11,7 +11,8 @@ import { useUserData } from "../../hooks/useUserData";
 
 export default function WorkoutVideoPage() {
   const [isOpenedMyProgress, setIsOpenedMyProgress] = useState<boolean>(false);
-  const { id } = useParams();
+  const [isExistExercises, setIsExistExercises] = useState<boolean>(false);
+  const { id } = useParams() as { id: string };
   const { userCourses, setUserCourses } = useUserCourses();
   const { user } = useUserData();
 
@@ -21,14 +22,6 @@ export default function WorkoutVideoPage() {
     exercises: [{ name: "", progress: 0, quantity: 0 }],
     video: "",
   });
-
-  // const courseId = userCourses.find((element) =>
-  //   element.workouts.find((elem) => elem._id === id),
-  // )?._id;
-
-  const exercisesData = userCourses
-    .find((element) => element.workouts.find((elem) => elem._id === id))
-    ?.workouts.find((e) => e._id === id)?.exercises;
 
   useEffect(() => {
     if (user) {
@@ -40,15 +33,25 @@ export default function WorkoutVideoPage() {
     }
   }, [setUserCourses, user]);
 
-  getWorkouts().then((data) => {
-    const matchedWorkout = data.find((el) => el._id === id);
-    setWorkout({
-      name: matchedWorkout!.name,
-      _id: matchedWorkout!._id,
-      exercises: exercisesData || [],
-      video: matchedWorkout!.video,
+  useEffect(() => {
+    getWorkouts().then((data) => {
+      const exercisesData = userCourses
+        .find((element) => element.workouts?.find((elem) => elem._id === id))
+        ?.workouts.find((e) => e._id === id)?.exercises;
+      const matchedWorkout = data.find((el) => el._id === id);
+      if (exercisesData) {
+        setIsExistExercises(true)
+      } else {
+        setIsExistExercises(false)
+      }
+      setWorkout({
+        name: matchedWorkout!.name,
+        _id: matchedWorkout!._id,
+        exercises: exercisesData || [],
+        video: matchedWorkout!.video,
+      });
     });
-  });
+  }, [id, userCourses]);
 
   return (
     <>
@@ -70,17 +73,14 @@ export default function WorkoutVideoPage() {
           ></iframe>
         </div>
       </div>
-      <Exercises
+      {isExistExercises && <Exercises
         setIsOpenedMyProgress={setIsOpenedMyProgress}
         exercises={workout!.exercises}
-      />
+      />}
       {isOpenedMyProgress && (
         <MyProgressModal
           setIsOpenedMyProgress={setIsOpenedMyProgress}
-          exercises={workout!.exercises}
-          // userId={user!.id}
-          // courseId={courseId!}
-          // workoutId={id!}
+          workout={workout}
         />
       )}
     </>

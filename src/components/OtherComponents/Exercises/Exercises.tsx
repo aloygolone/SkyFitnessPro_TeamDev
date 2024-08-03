@@ -1,6 +1,5 @@
 import "../../../css/style.css";
 import { ExerciseType } from "../../../types";
-// import { useCourses } from "../../../hooks/useCourses";
 
 type Exercises = {
   setIsOpenedMyProgress: (arg: boolean) => void;
@@ -11,7 +10,6 @@ export default function Exercises({
   setIsOpenedMyProgress,
   exercises,
 }: Exercises) {
-
   function handleClick() {
     setIsOpenedMyProgress(true);
   }
@@ -23,11 +21,11 @@ export default function Exercises({
         {exercises?.map((item, index) => (
           <div key={index} className="flex flex-col">
             <p className="font-roboto text-[18px] font-normal">
-              {item.name} {exercises.find((item) => item.name)?.progress}%
+              {item.name} {item.progress}%
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
-              value={exercises.find((item) => item.name)?.progress}
+              value={item.progress}
               max="100"
             ></progress>
           </div>

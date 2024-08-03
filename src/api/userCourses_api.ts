@@ -97,7 +97,18 @@ export const fetchAddFavoriteCourseToUser = async (
   }
 };
 
-export const updateUserProgress = (userId: string, courseId: string, workoutId: string, newExercisesData: ExerciseType[]) => {
+export const updateUserProgress = (
+  userId: string,
+  courseId: string,
+  newWorkoutsData: UserWorkoutType[],
+) => {
+  set(ref(database, `users/${userId}/${courseId}/workouts/`), newWorkoutsData);
+};
 
-  set(ref(database, `users/${userId}/${courseId}/workouts/${workoutId}/exercises`), newExercisesData);
-}
+export const updateTotalProgress = (
+  userId: string,
+  courseId: string,
+  newProgress: number,
+) => {
+  set(ref(database, `users/${userId}/${courseId}/totalProgress/`), newProgress);
+};
