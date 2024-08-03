@@ -1,3 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  padding-left: 140px;
+  padding-right: 140px;
+  font-family: "Roboto";
+}
+
+@media (max-width: 420px) {
+  body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+progress[value]::-webkit-progress-value {
+  background-color: #00c1ff;
+  border-radius: 50px;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #f7f7f7;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(0, 0, 0);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}

@@ -582,21 +582,73 @@ video {
   }
 }
 
+.absolute {
+  position: absolute;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-16 {
+  top: 4rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.mr-\[140px\] {
+  margin-right: 140px;
+}
+
+.mt-\[50px\] {
+  margin-top: 50px;
+}
+
+.mt-\[74px\] {
+  margin-top: 74px;
 }
 
 .flex {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+.h-\[52px\] {
+  height: 52px;
+}
+
+.w-\[103px\] {
+  width: 103px;
+}
+
+.w-\[206px\] {
+  width: 206px;
+}
+
 .flex-col {
   flex-direction: column;
 }
 
+.items-center {
+  align-items: center;
+}
+
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-\[34px\] {
+  gap: 34px;
 }
 
 .space-y-\[15px\] > :not([hidden]) ~ :not([hidden]) {
@@ -605,12 +657,92 @@ video {
   margin-bottom: calc(15px * var(--tw-space-y-reverse));
 }
 
+.space-y-\[60px\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(60px * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(60px * var(--tw-space-y-reverse));
+}
+
+.rounded-blockRadius {
+  border-radius: 30px;
+}
+
+.rounded-buttonRadius {
+  border-radius: 46px;
+}
+
+.border-\[1px\] {
+  border-width: 1px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
 .bg-mainColor {
   --tw-bg-opacity: 1;
   background-color: rgb(188 236 48 / var(--tw-bg-opacity));
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.p-l {
+  padding: 30px;
+}
+
+.px-btnX {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.py-btnY {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-defaultFont {
+  font-family: Roboto, sans-serif;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.shadow-\[0_4px_67px_-12px_rgba\(0\2c 0\2c 0\2c 0\.13\)\] {
+  --tw-shadow: 0 4px 67px -12px rgba(0,0,0,0.13);
+  --tw-shadow-colored: 0 4px 67px -12px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:bg-bgColor:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 247 247 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-mainHover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(198 255 0 / var(--tw-bg-opacity));
+}
+
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex;
+  }
 }
