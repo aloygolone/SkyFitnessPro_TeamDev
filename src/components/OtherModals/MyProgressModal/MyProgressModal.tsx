@@ -56,7 +56,7 @@ export default function MyProgressModal({
     });
 
     const currentCourse = userCourses.find((element) =>
-      element.workouts.find((elem) => elem._id === workout._id),
+      element.workouts?.find((elem) => elem._id === workout._id),
     );
     const workoutId = currentCourse!.workouts.find(
       (element) => element._id === workout._id,
