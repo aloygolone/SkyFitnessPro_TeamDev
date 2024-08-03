@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useUserData } from "../../../hooks/useUserData";
+import { fetchAddFavoriteCourseToUser } from "../../../api/userCourses_api";
+import { useParams } from "react-router-dom";
 
 type CallTextType = {
-  setIsOpenedSigninForm: (arg: boolean) => void
-}
+  setIsOpenedSigninForm: (arg: boolean) => void;
+};
 
-export default function CallText({setIsOpenedSigninForm}: CallTextType) {
+export default function CallText({ setIsOpenedSigninForm }: CallTextType) {
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(false);
-  
+  const { id } = useParams() as { id: string };
+
   const { user } = useUserData();
 
   useEffect(() => {
@@ -18,7 +21,9 @@ export default function CallText({setIsOpenedSigninForm}: CallTextType) {
     }
   }, [user]);
 
-  function handleAddCourse() {}
+  const handleAddCourse = () => {
+    fetchAddFavoriteCourseToUser(user!.id, id);
+  };
 
   function handleOpenSigninForm() {
     setIsOpenedSigninForm(true);
