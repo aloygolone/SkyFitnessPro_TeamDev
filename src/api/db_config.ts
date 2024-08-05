@@ -3,14 +3,14 @@ import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCUepvc2q7KR5qk8MChCAU-J0aZhS0-zFQ",
-  authDomain: "skyfitnessproteamdev.firebaseapp.com",
+  apiKey: "AIzaSyAKIlR2BLmRIwIiqf2YeuMl5K4b4fzNoIQ",
+  authDomain: "skyfpteamdev.firebaseapp.com",
   databaseURL:
-    "https://skyfitnessproteamdev-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "skyfitnessproteamdev",
-  storageBucket: "skyfitnessproteamdev.appspot.com",
-  messagingSenderId: "53313572858",
-  appId: "1:53313572858:web:e2fdbf634545a1deca9e43",
+    "https://skyfpteamdev-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "skyfpteamdev",
+  storageBucket: "skyfpteamdev.appspot.com",
+  messagingSenderId: "856837046271",
+  appId: "1:856837046271:web:96d5f919d8c9773227f1ca",
 };
 
 export const app = initializeApp(firebaseConfig);
