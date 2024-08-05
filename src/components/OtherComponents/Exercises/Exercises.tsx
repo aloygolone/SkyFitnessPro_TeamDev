@@ -16,6 +16,10 @@ export default function Exercises({
   }
 
   const getProgressOrMax = exercises.find((item) => item.name)?.progress;
+  const getResult =
+    getProgressOrMax && getProgressOrMax > 100
+      ? Math.min(getProgressOrMax, 100)
+      : getProgressOrMax;
 
   return (
     <div className="rounded-[30px] bg-white p-[40px] shadow-blockShadow">
@@ -25,18 +29,11 @@ export default function Exercises({
           <div key={index} className="flex flex-col">
             <p className="font-roboto text-[18px] font-normal">
               {item.name}
-              {getProgressOrMax && getProgressOrMax > 100
-                ? Math.min(getProgressOrMax, 100)
-                : getProgressOrMax}
-              %
+              {getResult}%
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
-              value={
-                getProgressOrMax && getProgressOrMax > 100
-                  ? Math.min(getProgressOrMax, 100)
-                  : getProgressOrMax
-              }
+              value={getResult}
               max="100"
             ></progress>
           </div>
