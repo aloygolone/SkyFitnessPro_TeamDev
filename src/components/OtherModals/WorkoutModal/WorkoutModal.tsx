@@ -57,9 +57,11 @@ export default function WorkoutModal({
                     {el.exercises &&
                     el.exercises.some((exercise) => Number(exercise) >= 100) ? (
                       <div className="pointer-events-none flex content-center items-center justify-start border-b-[1px] border-underLineColor sm:mb-[20px]">
-                        <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
-                          <use xlinkHref="/public/icons/sprite.svg#icon-done" />
-                        </svg>
+                        <div>
+                          <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
+                            <use xlinkHref="/public/icons/sprite.svg#icon-done" />
+                          </svg>
+                        </div>
                         <div className="mr-[10px] sm:mb-[10px]">
                           <p className="text-[18px] text-zinc-500 sm:text-[24px]">
                             {el.name}

@@ -178,7 +178,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               {!isMainPage && (
                 <div>
                   <div>
-                    <p className="flex justify-start bg-bgColor text-[18px]">
+                    <p className="flex justify-start bg-[#FFFFFF] text-[18px]">
                       Прогресс {setTotalProgress(el)}%
                     </p>
                     <progress
