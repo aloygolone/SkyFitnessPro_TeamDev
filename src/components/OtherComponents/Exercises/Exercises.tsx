@@ -32,7 +32,11 @@ export default function Exercises({
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
-              value={getProgressOrMax}
+              value={
+                getProgressOrMax && getProgressOrMax > 100
+                  ? Math.min(getProgressOrMax, 100)
+                  : getProgressOrMax
+              }
               max="100"
             ></progress>
           </div>
