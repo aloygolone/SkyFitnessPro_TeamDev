@@ -11,10 +11,11 @@ export default function Exercises({
   setIsOpenedMyProgress,
   exercises,
 }: Exercises) {
-
   function handleClick() {
     setIsOpenedMyProgress(true);
   }
+
+  const getProgressOrMax = exercises.find((item) => item.name)?.progress;
 
   return (
     <div className="rounded-[30px] bg-white p-[40px] shadow-blockShadow">
@@ -23,11 +24,15 @@ export default function Exercises({
         {exercises?.map((item, index) => (
           <div key={index} className="flex flex-col">
             <p className="font-roboto text-[18px] font-normal">
-              {item.name} {exercises.find((item) => item.name)?.progress}%
+              {item.name}
+              {getProgressOrMax && getProgressOrMax > 100
+                ? Math.min(getProgressOrMax, 100)
+                : getProgressOrMax}
+              %
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
-              value={exercises.find((item) => item.name)?.progress}
+              value={getProgressOrMax}
               max="100"
             ></progress>
           </div>
