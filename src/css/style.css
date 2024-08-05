@@ -22,7 +22,7 @@
 
 ::before,
 ::after {
-  --tw-content: '';
+  --tw-content: "";
 }
 
 /*
@@ -44,9 +44,10 @@ html,
   -moz-tab-size: 4;
   /* 3 */
   -o-tab-size: 4;
-     tab-size: 4;
+  tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -89,7 +90,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 
 abbr:where([title]) {
   -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+  text-decoration: underline dotted;
 }
 
 /*
@@ -135,7 +136,8 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   /* 1 */
   font-feature-settings: normal;
   /* 2 */
@@ -236,9 +238,9 @@ select {
 */
 
 button,
-input:where([type='button']),
-input:where([type='reset']),
-input:where([type='submit']) {
+input:where([type="button"]),
+input:where([type="reset"]),
+input:where([type="submit"]) {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -285,7 +287,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 2. Correct the outline style in Safari.
 */
 
-[type='search'] {
+[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
@@ -378,7 +380,8 @@ textarea {
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-input::-moz-placeholder, textarea::-moz-placeholder {
+input::-moz-placeholder,
+textarea::-moz-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
@@ -446,7 +449,9 @@ video {
   display: none;
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -586,8 +591,12 @@ video {
   position: absolute;
 }
 
-.relative {
-  position: relative;
+.right-0 {
+  right: 0px;
+}
+
+.top-16 {
+  top: 4rem;
 }
 
 .mx-auto {
@@ -595,78 +604,56 @@ video {
   margin-right: auto;
 }
 
-.inline-block {
-  display: inline-block;
+.mr-\[140px\] {
+  margin-right: 140px;
+}
+
+.mt-\[50px\] {
+  margin-top: 50px;
+}
+
+.mt-\[74px\] {
+  margin-top: 74px;
 }
 
 .flex {
   display: flex;
 }
 
-.h-hCard {
-  height: 40.5rem;
+.grid {
+  display: grid;
 }
 
-.h-selectorBlockH {
-  height: 46rem;
+.hidden {
+  display: none;
 }
 
-.h-selectorBlockMainH {
-  height: 31rem;
+.h-\[52px\] {
+  height: 52px;
 }
 
-.w-selectorBlockW {
-  width: 72.5rem;
+.w-\[103px\] {
+  width: 103px;
 }
 
-.w-wCard {
-  width: 22.5rem;
-}
-
-.cursor-default {
-  cursor: default;
-}
-
-.list-none {
-  list-style-type: none;
-}
-
-.appearance-none {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
-
-.flex-row {
-  flex-direction: row;
+.w-\[206px\] {
+  width: 206px;
 }
 
 .flex-col {
   flex-direction: column;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.content-center {
-  align-content: center;
-}
-
 .items-center {
   align-items: center;
 }
 
-.justify-start {
-  justify-content: flex-start;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-\[34px\] {
+  gap: 34px;
 }
 
 .space-y-\[15px\] > :not([hidden]) ~ :not([hidden]) {
@@ -675,18 +662,31 @@ video {
   margin-bottom: calc(15px * var(--tw-space-y-reverse));
 }
 
-.rounded-3xl {
-  border-radius: 1.5rem;
+.space-y-\[60px\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(60px * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(60px * var(--tw-space-y-reverse));
 }
 
-.bg-colorGreen {
-  --tw-bg-opacity: 1;
-  background-color: rgb(188 236 48 / var(--tw-bg-opacity));
+.rounded-blockRadius {
+  border-radius: 30px;
 }
 
-.bg-colorProgress {
-  --tw-bg-opacity: 1;
-  background-color: rgb(247 247 247 / var(--tw-bg-opacity));
+.rounded-buttonRadius {
+  border-radius: 46px;
+}
+
+.border-\[1px\] {
+  border-width: 1px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .bg-mainColor {
@@ -694,72 +694,61 @@ video {
   background-color: rgb(188 236 48 / var(--tw-bg-opacity));
 }
 
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.align-middle {
-  vertical-align: middle;
+.p-l {
+  padding: 30px;
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.px-btnX {
+  padding-left: 26px;
+  padding-right: 26px;
 }
 
-.text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
+.py-btnY {
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+.text-center {
+  text-align: center;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+.font-defaultFont {
+  font-family: Roboto, sans-serif;
 }
 
-* {
-  margin: 0px;
-  padding: 0px;
+.font-normal {
+  font-weight: 400;
 }
 
-progress[value]::-webkit-progress-value {
-  background-color: #00c1ff;
-  border-radius: 50px;
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
-progress[value]::-webkit-progress-bar {
-  background-color: #f7f7f7;
-  border-radius: 50px;
+.shadow-\[0_4px_67px_-12px_rgba\(0\2c 0\2c 0\2c 0\.13\)\] {
+  --tw-shadow: 0 4px 67px -12px rgba(0, 0, 0, 0.13);
+  --tw-shadow-colored: 0 4px 67px -12px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+.hover\:bg-bgColor:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 247 247 / var(--tw-bg-opacity));
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgb(0, 0, 0);
-  border-radius: 10px;
+.hover\:bg-mainHover:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(198 255 0 / var(--tw-bg-opacity));
 }
 
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0;
-  /* <-- Apparently some margin are still there even though it's hidden */
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  /* Firefox */
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex;
+  }
 }
