@@ -103,8 +103,9 @@ export default function MyProgressModal({
             <div className="flex content-center items-center justify-center">
               <button
                 onClick={handleClickSaveProgress}
-                className="mt-[24px] block w-full rounded-[30px] bg-mainColor text-[18px] hover:bg-mainHover"
+                className={`mt-[24px] block w-full rounded-[30px] text-[18px] active:bg-black active:text-white ${isSuccess ? "bg-mainColor hover:bg-mainHover" : "bg-[#F7F7F7] text-[#999999]"}`}
                 type="button"
+                disabled={!isSuccess}
               >
                 <p className="my-[16px]">Сохранить</p>
               </button>
