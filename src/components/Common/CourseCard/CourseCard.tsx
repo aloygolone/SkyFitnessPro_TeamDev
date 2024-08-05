@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import "../../../css/style.css";
 import { courseLogoSrc } from "../../../lib/courseSettings";
 import { Link } from "react-router-dom";
-import { getCourses } from "../../../api/courses_api";
 import {
   deleteMatchedCourse,
   fetchAddFavoriteCourseToUser,
+  getAddedCourseOfUser,
 } from "../../../api/userCourses_api";
 import { useUserData } from "../../../hooks/useUserData";
-import { CourseType } from "../../../types";
 import WorkoutModal from "../../OtherModals/WorkoutModal/WorkoutModal";
+import { useCourses } from "../../../hooks/useCourses";
+import { CourseType } from "../../../types";
+import { useUserCourses } from "../../../hooks/useUserCourses";
 
 type CourseCardType = {
   isMainPage: boolean;
@@ -24,9 +26,11 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
   const [isOpenedWorkoutModal, setIsOpenedWorkoutModal] =
     useState<boolean>(false);
 
-  const [addedCourse, setAddedCourse] = useState<string[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
-  const [courses, setCourses] = useState<CourseType[]>();
+  const { userCourses, setUserCourses } = useUserCourses();
+
+  const { courses } = useCourses();
 
   const { user } = useUserData();
 
@@ -40,16 +44,9 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     setShowTooltips((prev) => ({ ...prev, [id]: false }));
   };
 
-  useEffect(() => {
-    getCourses().then((data) => {
-      setCourses(data);
-    });
-  });
-
   const handleAddCourse = (id: string) => {
     if (user) {
       fetchAddFavoriteCourseToUser(user.id, id);
-      setAddedCourse([...id]);
     } else {
       alert("Войдите, чтобы добавить курс");
     }
@@ -59,35 +56,41 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
     deleteMatchedCourse(user!.id, id);
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     getAddedCourseOfUser(user.id).then((data) => {
-  //       if (data) {
-  //         setAddedCourse(data);
-  //       }
-  //     });
-  //   }
-  // });
+  useEffect(() => {
+    if (user) {
+      getAddedCourseOfUser(user.id).then((data) => {
+        if (data) {
+          setUserCourses(data);
+        }
+      });
+    }
+  });
 
-  // useEffect(() => {
-  //   if (user && !isMainPage) {
-  //     getAddedCourseOfUser(user.id).then((data) => {
-  //       const addedCourses = courses?.filter((el) => data.includes(el._id))
-  //       setCourses()
-  //       setAddedCourse(data);
-  //     });
-  //   }
-  // })
+  useEffect(() => {
+    if (!isMainPage) {
+      setFilteredCourses(
+        courses.filter((element) =>
+          userCourses.find((el) => el._id === element?._id),
+        ),
+      );
+    } else {
+      setFilteredCourses(courses);
+    }
+  }, [userCourses, courses, isMainPage]);
 
   const handleStartWorkout = (id: string) => {
     setCourseId(id);
     setIsOpenedWorkoutModal(true);
   };
 
+  const setTotalProgress = (el: CourseType) => {
+    return userCourses.find((element) => element._id === el._id)?.totalProgress;
+  };
+
   return (
     <>
-      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] sm:justify-center md:justify-center lg:justify-start">
-        {courses?.map((el, index) => (
+      <div className="mt-[50px] flex flex-wrap justify-center gap-[40px] bg-white sm:justify-center md:justify-center lg:justify-start">
+        {filteredCourses?.map((el, index) => (
           <div
             key={index}
             className="rounded-[30px] bg-[#FFFFFF] shadow-blockShadow"
@@ -96,19 +99,22 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               <Link to={`/course/${el._id}`}>
                 <img
                   className="rounded-[30px] object-contain"
-                  src={courseLogoSrc.find((el) => el.id === index)?.imgSrc}
+                  src={
+                    courseLogoSrc.find((element) => element.id === el._id)
+                      ?.imgSrc
+                  }
                   alt=""
                 />
               </Link>
               <div className="absolute right-0 top-0">
                 {isMainPage ? (
                   <div className="relative inline-block cursor-pointer">
-                    {addedCourse.includes(el._id) && (
-                      <svg className="m-[20px] h-[32px] w-[32px]">
+                    {userCourses.find((element) => element._id === el._id) && (
+                      <svg className="m-[20px] h-[32px] w-[32px] rounded-full border-[2px] border-white">
                         <use xlinkHref="/public/icons/sprite.svg#icon-done" />
                       </svg>
                     )}
-                    {!addedCourse.includes(el._id) && (
+                    {!userCourses.find((element) => element._id === el._id) && (
                       <svg
                         className="m-[20px] h-[32px] w-[32px]"
                         onMouseEnter={() => handleMouseEnter(index)}
@@ -118,7 +124,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                         <use xlinkHref="/public/icons/sprite.svg#icon-plus" />
                       </svg>
                     )}
-                    {showTooltips[index] && !addedCourse && (
+                    {showTooltips[index] && !userCourses && (
                       <span className="absolute left-[64px] z-[1] whitespace-nowrap rounded-[5px] border-[1px] border-black bg-white p-[6px] pl-[20px] pr-[20px] text-center text-black">
                         Добавить курс
                       </span>
@@ -172,12 +178,12 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               {!isMainPage && (
                 <div>
                   <div>
-                    <p className="flex justify-start bg-[#FFFFFF] text-[18px]">
-                      Прогресс {0}%
+                    <p className="flex justify-start bg-bgColor text-[18px]">
+                      Прогресс {setTotalProgress(el)}%
                     </p>
                     <progress
                       className="inline-block h-[6px] w-full appearance-none align-middle"
-                      value={0}
+                      value={setTotalProgress(el)}
                       max="100"
                     ></progress>
                   </div>
@@ -187,11 +193,11 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
                     type="button"
                   >
                     <h2 className="mx-[68px] my-[16px]">
-                      {"Начать тренировку"}
-                      {/* {el.totalProgress === 100 && "Начать заново"}
-                      {el.totalProgress > 0 &&
-                        el.totalProgress !== 100 &&
-                        "Продолжить"} */}
+                      {setTotalProgress(el) === 0
+                        ? "Начать тренировку"
+                        : setTotalProgress(el) === 100
+                          ? "Начать заново"
+                          : "Продолжить"}
                     </h2>
                   </button>
                 </div>

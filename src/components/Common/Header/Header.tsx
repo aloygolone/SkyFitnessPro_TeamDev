@@ -59,7 +59,7 @@ export default function Header({ page }: HeaderType) {
           </svg>
 
           <div className="flex cursor-pointer items-center pl-[10px] md:m-0">
-            <div className="hidden md:mr-[12px] md:text-2xl/[26px]">Сергей</div>
+            <div className="md:mr-[12px] md:text-2xl/[26px]">Сергей</div>
             <svg className="h-[4px] w-[15px] border-solid border-black md:h-[15px]">
               <use xlinkHref="./public/icons/sprite.svg#icon-user-arrow" />
             </svg>

@@ -3,12 +3,17 @@ import MyProgressModal from "../../components/OtherModals/MyProgressModal/MyProg
 import Exercises from "../../components/OtherComponents/Exercises/Exercises";
 import { getWorkouts } from "../../api/courses_api";
 import { WorkoutType } from "../../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useUserCourses } from "../../hooks/useUserCourses";
+import { getAddedCourseOfUser } from "../../api/userCourses_api";
+import { useUserData } from "../../hooks/useUserData";
 
 export default function WorkoutVideoPage() {
   const [isOpenedMyProgress, setIsOpenedMyProgress] = useState<boolean>(false);
   const { id } = useParams();
+  const { userCourses, setUserCourses } = useUserCourses();
+  const { user } = useUserData();
 
   const [workout, setWorkout] = useState<WorkoutType>({
     name: "",
@@ -17,12 +22,30 @@ export default function WorkoutVideoPage() {
     video: "",
   });
 
+  // const courseId = userCourses.find((element) =>
+  //   element.workouts.find((elem) => elem._id === id),
+  // )?._id;
+
+  const exercisesData = userCourses
+    .find((element) => element.workouts.find((elem) => elem._id === id))
+    ?.workouts.find((e) => e._id === id)?.exercises;
+
+  useEffect(() => {
+    if (user) {
+      getAddedCourseOfUser(user.id).then((data) => {
+        if (data) {
+          setUserCourses(data);
+        }
+      });
+    }
+  }, [setUserCourses, user]);
+
   getWorkouts().then((data) => {
     const matchedWorkout = data.find((el) => el._id === id);
     setWorkout({
       name: matchedWorkout!.name,
       _id: matchedWorkout!._id,
-      exercises: matchedWorkout!.exercises,
+      exercises: exercisesData || [],
       video: matchedWorkout!.video,
     });
   });
@@ -55,6 +78,9 @@ export default function WorkoutVideoPage() {
         <MyProgressModal
           setIsOpenedMyProgress={setIsOpenedMyProgress}
           exercises={workout!.exercises}
+          // userId={user!.id}
+          // courseId={courseId!}
+          // workoutId={id!}
         />
       )}
     </>

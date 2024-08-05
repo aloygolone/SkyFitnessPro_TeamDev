@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { CoursesContext } from "../context/CoursesProvider";
 
-
 export function useCourses() {
-  return useContext(CoursesContext);
+  const context = useContext(CoursesContext);
+  if (context) {
+    return context;
+  } else {
+    throw new Error("Ошибка");
+  }
 }

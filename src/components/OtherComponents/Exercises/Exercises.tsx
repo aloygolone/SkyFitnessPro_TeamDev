@@ -11,10 +11,6 @@ export default function Exercises({
   setIsOpenedMyProgress,
   exercises,
 }: Exercises) {
-  // const { courses } = useCourses();
-  // const trainingNumber = courses
-  //   .find((el) => el.workouts._id === workout._id)
-  //   .indexOf(workout._id);
 
   function handleClick() {
     setIsOpenedMyProgress(true);
@@ -27,11 +23,11 @@ export default function Exercises({
         {exercises?.map((item, index) => (
           <div key={index} className="flex flex-col">
             <p className="font-roboto text-[18px] font-normal">
-              {item.name} 50%
+              {item.name} {exercises.find((item) => item.name)?.progress}%
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
-              value={50}
+              value={exercises.find((item) => item.name)?.progress}
               max="100"
             ></progress>
           </div>

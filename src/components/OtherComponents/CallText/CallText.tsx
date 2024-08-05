@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
-import SigninForm from "../../Common/SigninForm/SigninForm";
+import { useUserData } from "../../../hooks/useUserData";
 
-export default function CallText() {
+type CallTextType = {
+  setIsOpenedSigninForm: (arg: boolean) => void
+}
+
+export default function CallText({setIsOpenedSigninForm}: CallTextType) {
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(false);
-  const [isOpenedSigninForm, setIsOpenedSigninForm] = useState<boolean>(false);
+  
+  const { user } = useUserData();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
     if (user) {
       setIsAuthorizated(true);
     } else {
       setIsAuthorizated(false);
     }
-  }, []);
+  }, [user]);
 
-  function handleAddCourse() {
-    
-  }
+  function handleAddCourse() {}
 
   function handleOpenSigninForm() {
     setIsOpenedSigninForm(true);
@@ -51,9 +53,6 @@ export default function CallText() {
             >
               Войдите, чтобы добавить курс
             </button>
-          )}
-          {isOpenedSigninForm && (
-            <SigninForm setIsOpenedSigninForm={setIsOpenedSigninForm} setIsOpenedSignupForm={setIsOpenedSigninForm} />
           )}
         </div>
       </div>
