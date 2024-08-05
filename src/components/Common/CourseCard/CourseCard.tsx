@@ -6,7 +6,6 @@ import { getCourses } from "../../../api/courses_api";
 import {
   deleteMatchedCourse,
   fetchAddFavoriteCourseToUser,
-  
 } from "../../../api/userCourses_api";
 import { useUserData } from "../../../hooks/useUserData";
 import { CourseType } from "../../../types";
@@ -49,8 +48,8 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
 
   const handleAddCourse = (id: string) => {
     if (user) {
-      fetchAddFavoriteCourseToUser(user.id, id)
-      setAddedCourse([...id])
+      fetchAddFavoriteCourseToUser(user.id, id);
+      setAddedCourse([...id]);
     } else {
       alert("Войдите, чтобы добавить курс");
     }
@@ -91,7 +90,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
         {courses?.map((el, index) => (
           <div
             key={index}
-            className="rounded-[30px] bg-bgColor shadow-blockShadow"
+            className="rounded-[30px] bg-[#FFFFFF] shadow-blockShadow"
           >
             <div className="relative mb-[24px]">
               <Link to={`/course/${el._id}`}>
@@ -149,21 +148,21 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               <h1 className="mb-[20px] flex flex-row text-[24px] sm:text-[32px]">
                 {el.nameRU}
               </h1>
-              <div className="mb-[20px] flex w-[288px] flex-wrap">
-                <div className="m-x-[6px] m-y-[3px] flex content-center items-center p-[10px]">
-                  <svg className="mr-[8px] h-[15px] w-[15px]">
+              <div className="mb-[14px] flex w-[288px] flex-wrap gap-[6px]">
+                <div className="m-x-[6px] m-y-[3px] flex content-center items-center rounded-[50px] bg-bgColor p-[10px]">
+                  <svg className="mr-[8px] h-[18px] w-[18px]">
                     <use xlinkHref="/public/icons/sprite.svg#icon-calendar" />
                   </svg>
                   <p className="text-[16px]">25 дней</p>
                 </div>
-                <div className="m-x-[6px] m-y-[3px] flex content-center items-center p-[10px]">
-                  <svg className="mr-[8px] h-[15px] w-[15px]">
+                <div className="m-x-[6px] m-y-[3px] flex content-center items-center rounded-[50px] bg-bgColor p-[10px]">
+                  <svg className="mr-[8px] h-[18px] w-[18px]">
                     <use xlinkHref="/public/icons/sprite.svg#icon-clockface" />
                   </svg>
                   <p className="text-[16px]">20-50 мин/день</p>
                 </div>
-                <div className="m-x-[6px] m-y-[3px] flex content-center items-center p-[10px]">
-                  <svg className="mr-[8px] h-[15px] w-[15px]">
+                <div className="m-x-[6px] m-y-[3px] flex content-center items-center rounded-[50px] bg-bgColor p-[10px]">
+                  <svg className="mr-[8px] h-[18px] w-[18px]">
                     <use xlinkHref="/public/icons/sprite.svg#icon-difficult-full" />
                   </svg>
                   <p className="text-[16px]">Сложность</p>
@@ -173,7 +172,7 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
               {!isMainPage && (
                 <div>
                   <div>
-                    <p className="flex justify-start bg-bgColor text-[18px]">
+                    <p className="flex justify-start bg-[#FFFFFF] text-[18px]">
                       Прогресс {0}%
                     </p>
                     <progress
