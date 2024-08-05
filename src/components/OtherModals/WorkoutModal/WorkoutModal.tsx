@@ -42,11 +42,12 @@ export default function WorkoutModal({
       const matchedWorkouts = data.filter((element) =>
         courseWorkouts?.find((el) => el === element._id),
       );
-      
-      setWorkouts(matchedWorkouts)
 
+      setWorkouts(matchedWorkouts);
     });
   });
+
+  console.log(workouts);
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-20">
       <div className="flex w-[343px] justify-center rounded-[30px] bg-white p-[30px] shadow-blockShadow sm:w-[460px] sm:p-[40px]">
@@ -59,7 +60,8 @@ export default function WorkoutModal({
               <div className="flex h-[314px] flex-col overflow-y-scroll scroll-smooth sm:h-[354px]">
                 {workouts?.map((el, index) => (
                   <div key={index} className="pb-[8px] sm:mb-[20px]">
-                    {/* {0 ? (
+                    {el.exercises &&
+                    el.exercises.some((exercise) => Number(exercise) >= 100) ? (
                       <div className="pointer-events-none flex content-center items-center justify-start border-b-[1px] border-underLineColor sm:mb-[20px]">
                         <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
                           <use xlinkHref="/public/icons/sprite.svg#icon-done" />
@@ -68,33 +70,29 @@ export default function WorkoutModal({
                           <p className="text-[18px] text-zinc-500 sm:text-[24px]">
                             {el.name}
                           </p>
-                          <p className="text-[14px] text-zinc-500 sm:text-[18px]">
-                            {el.description} / {el.day} день
-                          </p>
                         </div>
                       </div>
-                    ) : ( */}
-                    <div
-                      onClick={() => handleSelectTraining(el!._id)}
-                      className="border-b-[1px] border-underLineColor sm:mb-[20px]"
-                    >
+                    ) : (
                       <div
-                        className={`flex cursor-pointer content-center items-center justify-start ${training === el!._id && `rounded-[8px] border-[2px] border-mainColor`}`}
+                        onClick={() => handleSelectTraining(el._id)}
+                        className="border-b-[1px] border-underLineColor sm:mb-[20px]"
                       >
-                        <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
-                          <use xlinkHref="/public/icons/sprite.svg#icon-not-done" />
-                        </svg>
-                        <div className="mr-[10px] sm:mb-[10px]">
-                          <p className="text-[18px] sm:text-[24px]">
-                            {el!.name}
-                          </p>
-                          {/* <p className="text-[14px] sm:text-[18px]">
-                              {el.description} / {el.day} день
-                            </p> */}
+                        <div
+                          className={`flex cursor-pointer content-center items-center justify-start ${training === el._id && `rounded-[8px] border-[2px] border-mainColor`}`}
+                        >
+                          <div>
+                            <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
+                              <use xlinkHref="/public/icons/sprite.svg#icon-not-done" />
+                            </svg>
+                          </div>
+                          <div className="mr-[10px] sm:mb-[10px]">
+                            <p className="text-[18px] sm:text-[24px]">
+                              {el.name}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    {/* )} */}
+                    )}
                   </div>
                 ))}
               </div>
