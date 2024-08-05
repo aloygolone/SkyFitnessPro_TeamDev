@@ -2,13 +2,15 @@ import { ChangeEvent, useState } from "react";
 import "../../../css/style.css";
 import { ExerciseType } from "../../../types";
 
-
 type MyProgress = {
   setIsOpenedMyProgress: (arg: boolean) => void;
   exercises: ExerciseType[];
 };
 
-export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: MyProgress) {
+export default function MyProgressModal({
+  setIsOpenedMyProgress,
+  exercises,
+}: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [progressData, setProgressData] = useState<{ [key: number]: string }>(
     {},
@@ -18,7 +20,7 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
     const allInputsFilled = exercises.every(
       (el, index) =>
         progressData[index]?.trim() !== "" &&
-      exercises.length === Object.keys(progressData).length,
+        exercises.length === Object.keys(progressData).length,
     );
 
     if (allInputsFilled) {
@@ -39,7 +41,17 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
     id: number,
   ): void => {
     const { value } = e.target;
-    const updatedValue = Number(value) > 100 ? "100" : value;
+
+    let updatedValue =
+      value === "" || /^[0-9]*\.?[0-9]*$/.test(value)
+        ? value
+        : progressData[id] || "";
+
+    const numericValue = Number(updatedValue);
+    if (numericValue > 100) {
+      updatedValue = "100";
+    }
+
     setProgressData({
       ...progressData,
       [id]: updatedValue,
@@ -78,8 +90,11 @@ export default function MyProgressModal({ setIsOpenedMyProgress, exercises }: My
                       value={progressData[index] || ""}
                       onChange={(e) => handleInputChange(e, index)}
                       className="border-colorBorderBtn mb-[20px] h-[47px] w-[237px] rounded-lg border-[1px] p-[20px] text-[18px] opacity-75 sm:w-[288px]"
-                      type="number"
+                      type="text"
                       placeholder="0"
+                      min="0"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
                     />
                   </div>
                 ))}
