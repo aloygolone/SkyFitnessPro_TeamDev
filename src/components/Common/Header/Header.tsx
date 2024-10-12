@@ -55,13 +55,13 @@ export default function Header({ page }: HeaderType) {
       {user ? (
         <div className="flex items-center" onClick={handleUserModal}>
           <svg className="h-[36px] w-[36px] md:m-[16px] md:h-[42px] md:w-[42px]">
-            <use xlinkHref="./public/icons/sprite.svg#icon-profile" />
+            <use xlinkHref="/icons/sprite.svg#icon-profile" />
           </svg>
 
           <div className="flex cursor-pointer items-center pl-[10px] md:m-0">
-            <div className="md:mr-[12px] md:text-2xl/[26px]">Сергей</div>
+            <div className="hidden md:mr-[12px] md:text-2xl/[26px] md:flex">Сергей</div>
             <svg className="h-[4px] w-[15px] border-solid border-black md:h-[15px]">
-              <use xlinkHref="./public/icons/sprite.svg#icon-user-arrow" />
+              <use xlinkHref="/icons/sprite.svg#icon-user-arrow" />
             </svg>
           </div>
         </div>
