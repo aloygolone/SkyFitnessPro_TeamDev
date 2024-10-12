@@ -21,7 +21,7 @@ export default function Exercises({
         {exercises?.map((item, index) => (
           <div key={index} className="flex flex-col">
             <p className="font-roboto text-[18px] font-normal">
-              {item.name} {item.progress}%
+              {item.name} {Math.min(item.progress, 100)}%
             </p>
             <progress
               className="mt-[10px] block h-[6px] w-full"
@@ -34,7 +34,7 @@ export default function Exercises({
 
       <button
         onClick={handleClick}
-        className="rounded-[30px] bg-mainColor text-[18px]"
+        className="rounded-[30px] bg-mainColor text-[18px] hover:bg-mainHover"
         type="button"
       >
         <p className="mx-[37px] my-[16px]">Заполнить свой прогресс</p>

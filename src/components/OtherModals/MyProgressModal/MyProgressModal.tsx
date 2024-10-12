@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import "../../../css/style.css";
 import { UserWorkoutType, WorkoutType } from "../../../types";
 import { useUserCourses } from "../../../hooks/useUserCourses";
@@ -24,13 +24,22 @@ export default function MyProgressModal({
   setWorkout,
 }: MyProgress) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [progressData, setProgressData] = useState<{ [key: string]: number }>(
+  const [progressData, setProgressData] = useState<{ [key: string]: string }>(
     {},
   );
+  const [allFieldsFilled, setAllFieldsFilled] = useState<boolean>(false);
 
   const { userCourses } = useUserCourses();
-
   const { user } = useUserData();
+
+  useEffect(() => {
+    const allFilled = workout.exercises.every(
+      (exercise) =>
+        progressData[exercise.name] !== undefined &&
+        progressData[exercise.name] !== "",
+    );
+    setAllFieldsFilled(allFilled);
+  }, [progressData, workout.exercises]);
 
   function handleClickSaveProgress() {
     const exercisesData = workout.exercises.map((el) => {
@@ -47,7 +56,10 @@ export default function MyProgressModal({
       if (quantity === 0 && el.progress === 0) {
         progressValue = 100;
       } else {
-        progressValue = exerciseProgress(quantity, progressData[progressKey]);
+        progressValue = exerciseProgress(
+          quantity,
+          Number(progressData[progressKey]),
+        );
       }
 
       return {
@@ -76,7 +88,6 @@ export default function MyProgressModal({
     );
 
     const courseId = currentCourse!._id;
-
     const newTotalProgress = newWorkouts!
       .map((item) => item.exercises.map((element) => element.progress))
       .flat();
@@ -101,11 +112,16 @@ export default function MyProgressModal({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    const updatedValue = Number(value) > 100 ? 100 : Number(value);
-    setProgressData({
-      ...progressData,
-      [name]: updatedValue,
-    });
+
+    if (/^\d*\.?\d*$/.test(value)) {
+      const updatedValue =
+        value === "" ? "" : Math.min(Number(value), 100).toString();
+
+      setProgressData({
+        ...progressData,
+        [name]: updatedValue,
+      });
+    }
   };
 
   return (
@@ -138,11 +154,15 @@ export default function MyProgressModal({
                     </p>
                     <input
                       name={el.name}
-                      value={progressData.progress}
+                      value={progressData[el.name] || ""}
                       onChange={(e) => handleInputChange(e)}
                       className="border-colorBorderBtn mb-[20px] h-[47px] w-[237px] rounded-lg border-[1px] p-[20px] text-[18px] opacity-75 sm:w-[288px]"
                       type="number"
                       placeholder={String(el.quantity)}
+                      min="0"
+                      max="100"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
                     />
                   </div>
                 ))}
@@ -151,8 +171,9 @@ export default function MyProgressModal({
             <div className="flex content-center items-center justify-center">
               <button
                 onClick={handleClickSaveProgress}
-                className="mt-[24px] block w-full rounded-[30px] bg-mainColor text-[18px] hover:bg-mainHover"
+                className={`mt-[24px] block w-full rounded-[30px] text-[18px] active:bg-black active:text-white ${allFieldsFilled ? "bg-mainColor hover:bg-mainHover" : "bg-[#F7F7F7] text-[#999999]"}`}
                 type="button"
+                disabled={!allFieldsFilled}
               >
                 <p className="my-[16px]">Сохранить</p>
               </button>
