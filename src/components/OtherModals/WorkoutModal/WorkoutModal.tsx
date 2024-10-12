@@ -5,6 +5,7 @@ import { getWorkouts } from "../../../api/courses_api";
 import { useNavigate } from "react-router-dom";
 import { WorkoutType } from "../../../types";
 import { useCourses } from "../../../hooks/useCourses";
+import { useUserCourses } from "../../../hooks/useUserCourses";
 
 type WorkoutModalType = {
   setIsOpenedWorkoutModal: (arg: boolean) => void;
@@ -17,6 +18,7 @@ export default function WorkoutModal({
 }: WorkoutModalType) {
   const [training, setTraining] = useState<string>("");
   const { courses } = useCourses();
+  const { userCourses } = useUserCourses();
   const [workouts, setWorkouts] = useState<WorkoutType[]>();
 
   const navigate = useNavigate();
@@ -42,9 +44,17 @@ export default function WorkoutModal({
     });
   }, [id, courses]);
 
-  if (workouts) {
-    console.log(workouts);
-  }
+  const isWorkoutCompleted = (workoutId: string): boolean => {
+    const userCourse = userCourses.find((course) => course._id === id);
+    if (!userCourse) return false;
+
+    const userWorkout = userCourse.workouts.find(
+      (workout) => workout._id === workoutId,
+    );
+    if (!userWorkout) return false;
+
+    return userWorkout.exercises.every((exercise) => exercise.progress === 100);
+  };
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-20">
@@ -58,7 +68,7 @@ export default function WorkoutModal({
               <div className="flex h-[314px] flex-col overflow-y-scroll scroll-smooth sm:h-[354px]">
                 {workouts?.map((el, index) => (
                   <div key={index} className="pb-[8px] sm:mb-[20px]">
-                    {el.exercises.some((el) => Number(el.quantity) >= 100) ? (
+                    {isWorkoutCompleted(el._id) ? (
                       <div className="pointer-events-none flex content-center items-center justify-start border-b-[1px] border-underLineColor sm:mb-[20px]">
                         <div>
                           <svg className="ml-[2px] mr-[12px] h-[20px] w-[20px]">
