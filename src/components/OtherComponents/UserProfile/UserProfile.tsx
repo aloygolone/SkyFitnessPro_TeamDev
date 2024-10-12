@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { appRoutes } from "../../../lib/appRoutes";
 import { useUserData } from "../../../hooks/useUserData";
-import { changePassword } from "../../../api/userAuth_api";
+import { changePassword, userSignin } from "../../../api/userAuth_api";
 
 type ErrorType = {
   oldPassword: string;
@@ -11,7 +11,6 @@ type ErrorType = {
 
 export default function UserProfile() {
   const { user, logout } = useUserData();
-
   const navigate = useNavigate();
 
   const [passwordData, setPasswordData] = useState<ErrorType>({
@@ -19,8 +18,7 @@ export default function UserProfile() {
     newPassword: "",
   });
 
-  // const [isMismatchPassword, setIsMismatchPassword] = useState(false);
-
+  const [isMismatchPassword, setIsMismatchPassword] = useState(false);
   const [isChangeMode, setIsChangeMode] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +27,9 @@ export default function UserProfile() {
       ...passwordData,
       [name]: value,
     });
+    if (isMismatchPassword) {
+      setIsMismatchPassword(false);
+    }
   };
 
   function handleChangePassword() {
@@ -36,7 +37,16 @@ export default function UserProfile() {
   }
 
   const handleSubmit = async () => {
-    changePassword(passwordData.newPassword).then(() => setIsChangeMode(false));
+    if (user?.email) {
+      try {
+        await userSignin(user.email, passwordData.oldPassword);
+        await changePassword(passwordData.newPassword);
+        setIsChangeMode(false);
+        setIsMismatchPassword(false);
+      } catch (error) {
+        setIsMismatchPassword(true);
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -81,15 +91,20 @@ export default function UserProfile() {
             ) : (
               <>
                 <input
-                  className="rounded-small border-gray-extra bg-white-base text-black-base placeholder-gray-extra mb-2.5 h-[52px] w-[280px] appearance-none rounded-inputRadius border px-[18px] py-[12px] text-lg"
+                  className={`rounded-small ${isMismatchPassword ? "border-red-500" : "border-gray-extra"} bg-white-base text-black-base placeholder-gray-extra mb-2.5 h-[52px] w-[280px] appearance-none rounded-inputRadius border px-[18px] py-[12px] text-lg`}
                   name="oldPassword"
                   type="password"
                   placeholder="Старый пароль"
                   value={passwordData.oldPassword}
                   onChange={handleInputChange}
                 />
+                {isMismatchPassword && (
+                  <div className="mt-1 text-sm text-red-500">
+                    Старый пароль введен неверно
+                  </div>
+                )}
                 <input
-                  className="border-error rounded-small border-gray-extra bg-white-base text-black-base placeholder-gray-extra h-[52px] w-[280px] appearance-none rounded-inputRadius border px-[18px] py-[12px] text-lg"
+                  className="rounded-small border-gray-extra bg-white-base text-black-base placeholder-gray-extra h-[52px] w-[280px] appearance-none rounded-inputRadius border px-[18px] py-[12px] text-lg"
                   name="newPassword"
                   type="password"
                   placeholder="Новый пароль"
