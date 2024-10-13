@@ -18,37 +18,42 @@ export default function CoursePage() {
   const [isOpenedSignupForm, setIsOpenedSignupForm] = useState<boolean>(false);
 
   useEffect(() => {
-    getCourses().then((data) => {
-      setCourses(data)
-    })
-  }, [setCourses])
+    const fetchCourses = async () => {
+      const data = await getCourses();
+      setCourses(data);
+    };
+
+    fetchCourses();
+  }, [setCourses]);
 
   const courseData = courses.find((el) => el._id === id);
+
   return (
-    <>
-      <div className="md: container mx-auto flex flex-col">
-        <Header page={"CorrectForTextPage"} />
-        <CourseLogo courseName={courseData?.nameRU} />
-        <FittingText fittings={courseData?.fitting} />
-        <Directions directions={courseData?.directions} />
-        <div className="relative">
-          
-          <LowStartMan />
-          <CallText setIsOpenedSigninForm={setIsOpenedSigninForm}/>
-        </div>
-        {isOpenedSigninForm && (
-            <SigninForm
-              setIsOpenedSigninForm={setIsOpenedSigninForm}
-              setIsOpenedSignupForm={setIsOpenedSignupForm}
-            />
-          )}
-          {isOpenedSignupForm && (
-            <SignupForm
-              setIsOpenedSigninForm={setIsOpenedSigninForm}
-              setIsOpenedSignupForm={setIsOpenedSignupForm}
-            />
-          )}
-      </div>
-    </>
+    <div className="mx-auto flex flex-col md:container">
+      <Header page={"CorrectForTextPage"} />
+      {courseData && (
+        <>
+          <CourseLogo courseName={courseData.nameRU} />
+          <FittingText fittings={courseData.fitting} />
+          <Directions directions={courseData.directions} />
+          <div className="relative">
+            <LowStartMan />
+            <CallText setIsOpenedSigninForm={setIsOpenedSigninForm} />
+          </div>
+        </>
+      )}
+      {isOpenedSigninForm && (
+        <SigninForm
+          setIsOpenedSigninForm={setIsOpenedSigninForm}
+          setIsOpenedSignupForm={setIsOpenedSignupForm}
+        />
+      )}
+      {isOpenedSignupForm && (
+        <SignupForm
+          setIsOpenedSigninForm={setIsOpenedSigninForm}
+          setIsOpenedSignupForm={setIsOpenedSignupForm}
+        />
+      )}
+    </div>
   );
-}	
+}

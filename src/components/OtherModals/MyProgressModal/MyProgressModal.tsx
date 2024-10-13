@@ -41,38 +41,27 @@ export default function MyProgressModal({
     setAllFieldsFilled(allFilled);
   }, [progressData, workout.exercises]);
 
-  function handleClickSaveProgress() {
+  const handleClickSaveProgress = async () => {
     const exercisesData = workout.exercises.map((el) => {
-      const progressKey = Object.keys(progressData).find(
-        (key) => key === el.name,
-      )!;
-
-      const quantity = workout.exercises.find(
-        (elem) => elem.name === el.name,
-      )!.quantity;
-
-      let progressValue;
-
-      if (quantity === 0 && el.progress === 0) {
-        progressValue = 100;
-      } else {
-        progressValue = exerciseProgress(
-          quantity,
-          Number(progressData[progressKey]),
-        );
-      }
+      const progressValue =
+        el.quantity === 0 && el.progress === 0
+          ? 100
+          : exerciseProgress(el.quantity, Number(progressData[el.name] || 0));
 
       return {
         name: el.name,
         progress: progressValue || 100,
-        quantity: quantity || 0,
+        quantity: el.quantity || 0,
       };
     });
 
-    const currentCourse = userCourses.find((element) =>
-      element.workouts?.find((elem) => elem._id === workout._id),
+    const currentCourse = userCourses.find((course) =>
+      course.workouts?.some((elem) => elem._id === workout._id),
     );
-    const workoutId = currentCourse!.workouts.find(
+
+    if (!currentCourse) return;
+
+    const workoutId = currentCourse.workouts.find(
       (element) => element._id === workout._id,
     )?._id;
 
@@ -81,34 +70,35 @@ export default function MyProgressModal({
       exercises: exercisesData,
     };
 
-    const newWorkouts = currentCourse?.workouts.map((element) =>
-      String(element._id) === String(workoutId)
-        ? (element = newWorkoutData)
-        : element,
+    const newWorkouts = currentCourse.workouts.map((element) =>
+      String(element._id) === String(workoutId) ? newWorkoutData : element,
     );
 
-    const courseId = currentCourse!._id;
-    const newTotalProgress = newWorkouts!
-      .map((item) => item.exercises.map((element) => element.progress))
-      .flat();
+    const courseId = currentCourse._id;
+    const newTotalProgress = totalProgress(
+      newWorkouts.flatMap((item) =>
+        item.exercises.map((element) => element.progress),
+      ),
+    );
 
-    if (newWorkouts) {
-      updateUserProgress(user!.id, courseId!, newWorkouts);
-      updateTotalProgress(user!.id, courseId!, totalProgress(newTotalProgress));
-      setIsSuccess(true);
-      setWorkout({
-        name: workout.name,
-        _id: workout._id,
-        exercises: exercisesData,
-        video: workout.video,
-      });
-    }
+    await Promise.all([
+      updateUserProgress(user!.id, courseId, newWorkouts),
+      updateTotalProgress(user!.id, courseId, newTotalProgress),
+    ]);
+
+    setIsSuccess(true);
+    setWorkout({
+      name: workout.name,
+      _id: workout._id,
+      exercises: exercisesData,
+      video: workout.video,
+    });
 
     setTimeout(() => {
       setIsOpenedMyProgress(false);
       setIsSuccess(false);
     }, 1000);
-  }
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -116,11 +106,10 @@ export default function MyProgressModal({
     if (/^\d*\.?\d*$/.test(value)) {
       const updatedValue =
         value === "" ? "" : Math.min(Number(value), 100).toString();
-
-      setProgressData({
-        ...progressData,
+      setProgressData((prev) => ({
+        ...prev,
         [name]: updatedValue,
-      });
+      }));
     }
   };
 
@@ -128,23 +117,19 @@ export default function MyProgressModal({
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-20">
       <div className="flex-col justify-center rounded-[30px] bg-white">
         {isSuccess ? (
-          <>
-            <div className="flex w-[343px] flex-col items-center justify-center p-[40px] sm:w-[426px]">
-              <h1 className="mb-[34px] text-center text-[32px] sm:text-[40px]">
-                Ваш прогресс засчитан!
-              </h1>
-              <svg className="h-[68px] w-[68px]">
-                <use xlinkHref="/public/icons/sprite.svg#icon-done" />
-              </svg>
-            </div>
-          </>
+          <div className="flex w-[343px] flex-col items-center justify-center p-[40px] sm:w-[426px]">
+            <h1 className="mb-[34px] text-center text-[32px] sm:text-[40px]">
+              Ваш прогресс засчитан!
+            </h1>
+            <svg className="h-[68px] w-[68px]">
+              <use xlinkHref="/public/icons/sprite.svg#icon-done" />
+            </svg>
+          </div>
         ) : (
           <div className="w-[343px] p-[40px] sm:w-[426px]">
-            <div>
-              <h1 className="mb-[48px] flex justify-start text-[32px]">
-                Мой прогресс
-              </h1>
-            </div>
+            <h1 className="mb-[48px] flex justify-start text-[32px]">
+              Мой прогресс
+            </h1>
             <div className="overflow-hidden scroll-smooth">
               <div className="h-[364px] overflow-y-scroll scroll-smooth">
                 {workout.exercises?.map((el, index) => (
@@ -155,7 +140,7 @@ export default function MyProgressModal({
                     <input
                       name={el.name}
                       value={progressData[el.name] || ""}
-                      onChange={(e) => handleInputChange(e)}
+                      onChange={handleInputChange}
                       className="border-colorBorderBtn mb-[20px] h-[47px] w-[237px] rounded-lg border-[1px] p-[20px] text-[18px] opacity-75 sm:w-[288px]"
                       type="number"
                       placeholder={String(el.quantity)}

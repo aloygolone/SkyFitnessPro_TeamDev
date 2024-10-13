@@ -11,23 +11,28 @@ export default function UserProfilePage() {
   const { user } = useUserData();
 
   useEffect(() => {
-    if (user) {
-      getCourses().then((data) => {
-        setCourses(data);
-      });
-    }
+    const fetchCourses = async () => {
+      if (user) {
+        try {
+          const data = await getCourses();
+          setCourses(data);
+        } catch (error) {
+          console.error("Курсы не загрузились:", error);
+        }
+      }
+    };
+
+    fetchCourses();
   }, [setCourses, user]);
 
   return (
-    <>
-      <div>
-        <Header page={""} />
-        <UserProfile />
-        <h2 className="mb-10 ml-8 text-[40px] font-semibold leading-[44px] sm:text-[26px] md:text-[32px]">
-          Мои курсы
-        </h2>
-        <CourseCard isMainPage={false} />
-      </div>
-    </>
+    <div>
+      <Header page={""} />
+      <UserProfile />
+      <h2 className="mb-10 ml-8 text-[40px] font-semibold leading-[44px] sm:text-[26px] md:text-[32px]">
+        Мои курсы
+      </h2>
+      <CourseCard isMainPage={false} />
+    </div>
   );
 }

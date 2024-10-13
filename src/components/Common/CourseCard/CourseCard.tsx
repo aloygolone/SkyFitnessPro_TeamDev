@@ -63,6 +63,8 @@ export default function CourseCard({ isMainPage }: CourseCardType) {
           setUserCourses(data);
         }
       });
+    } else {
+      setUserCourses([]);
     }
   });
 
